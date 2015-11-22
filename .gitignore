@@ -1,2 +1,3 @@
 proposal/*
+!proposal/*.bib
 !proposal/*.tex

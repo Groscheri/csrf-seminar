@@ -33,13 +33,32 @@
   \maketitle % build title
 
   \begin{abstract}
-  % TODO abstract/resume of the seminar
   \csrf{} (CSRF) -- often spelled ``sea surf'' -- is a well-known web attack which has 
   been discovered in 2001. The \textit{Open Web Application Security Project} (OWASP \cite{owasp}) 
-  ranked CSRF as the 8th vulnerabily in the top 10 of the most critical web application 
-  security risks in 2013~\cite{owasp_top_ten}.
-  % TODO to complete
-
+  ranked CSRF as the 8th\footnote{In 2007 OWASP's top ten, CSRF was at the 5th position 
+  (\url{https://www.owasp.org/index.php/Top_10_2007}).} vulnerabily in the top 10 of the 
+  most critical web application security risks in 2013~\cite{owasp_top_ten}.
+  
+  CSRF attack consists in creating (forging) fake HTTP or HTTPS\footnote{TLS encrypts 
+  information between the client (browser) and the server in order to prevent sniffing 
+  of untrusted networks and man in the middle attacks but it doesn't protect from 
+  legitimate requests.} requests on the user's behalf. It utilizes the lack of knowledge 
+  of the victim to build the request and get information with their credentials (as if 
+  the user really wanted to execute this request). In order to succeed, the victim must 
+  be connected (authenticated) to the service (website) where there is the vulnerability. 
+  Then, an attacker will have to fool the victim in order to build the fake request (with 
+  social engineering for instance).
+  
+  During this seminar, we want to get a better understanding of the security breaches 
+  involved in CSRF attack. The most interesting part consists in the comprehension of 
+  the surface of attack, how this attack can be done and where does it come from ? It 
+  is also important to understand what kind of information an attacker could steal or 
+  affect on the user's behalf thanks to this attack. Furthermore, it is relevant to 
+  know how to detect the vulnerability and how to protect web servers from this attack.
+  
+  Lots of companies were affected in the past and we will focus our attention on Google 
+  in particular with 2 different vulnerabilities discovered in 2007 concerning Gmail
+  \footnote{https://mail.google.com/} email service.
   \end{abstract}
 
 
@@ -48,7 +67,7 @@
   \begin{description}
    \item[Group number] 26
    \item[Group members] \textsc{David KUFA} \& \textsc{Quentin LEMAIRE}
-   \item[Title] CSRF attack: even Google was vulnerable
+   \item[Title] CSRF attack: even Google was vulnerable.
    \item[Schedule conflicts (Dec 15 \& 16)] None
   \end{description}
 
