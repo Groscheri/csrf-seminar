@@ -58,7 +58,7 @@
   
   Lots of companies were affected in the past and we will focus our attention on Google 
   in particular with 2 different vulnerabilities discovered in 2007 concerning Gmail
-  \footnote{https://mail.google.com/} email service.
+  \footnote{\url{https://mail.google.com/}} email service.
   \end{abstract}
 
 
@@ -95,25 +95,54 @@
   % plan
   
   \begin{enumerate}
-   \item CSRF: how it works ?
-   \item CSRF: how to prevent it ?
-   \item Some stories about CSRF
+   \item CSRF: how it works ? Implementation of a vulnerable web service.
+   \item CSRF: how to prevent it ? Implementation of a protected web service with different methods of protection.
+   \item Some stories about CSRF: 2 Google vulnerabilities in 2007.
    \begin{itemize}
-    \item Google: 2 vulnerabilities in 2007 (contact list spoofing \& email filter hijacking)
-    \item Other important attacks [TODO] % TODO
+    \item Contact list spoofing: it was possible to retrieve all the contact list of an user.
+    \item Email filter hijacking: it was possible to forward all email of an user to another selected email address. This attack had a great impact on Gmail users trust.
    \end{itemize}
   \end{enumerate}
   
   \subsection{Practical part}
   
-  % TODO
+  We are aware that it will be difficult to make a demonstration during the oral presentation 
+  because we don't have too much time for this. That's why we won't show our practical part 
+  during the oral presentation but we may use this part as a common thread for our explanations. 
+  
+  Technically speaking, we will implement a small platform using either \textit{Apache 2.4}\footnote{\url{https://httpd.apache.org/}} or \textit{nginx}\footnote{\url{http://nginx.org/}} as a web 
+  server. We own a small \textit{Raspberry Pi}\footnote{\url{https://www.raspberrypi.org/}} in which we can develop this platform. It will contains several 
+  things:
+  \begin{itemize}
+   \item An authentication system, which is part of the attack, an attack wants to forge request on the behalf of an user, and he or she has to be connected.
+   \item A vulnerable service: a GET or POST service which updates data about the user (password for instance).
+   \item Some protected services with different protection methods:
+   \begin{itemize}
+    \item CSRF tokens known from the server and the client ;
+    \item Signed tokens with a private secret (only known by the server), this is a simple way to avoid saving and storing tokens but this method has several drawbacks like ``golden'' token (if the token is stolen, it can be reused on the user's behalf). This protection method will use what we've learnt from the symmetric encryption and hashing lectures of this course ;
+    \item \textit{HTTP-REFERER} check but since this value comes from the client (which has been tricked), it can't be trusted.
+   \end{itemize}
+  \end{itemize}
+  
+  According to the programming language, we don't have any preferences. Python seems to be very easy to 
+  compute with libraries like \textit{Flask}\footnote{\url{http://flask.pocoo.org/}} or 
+  \textit{Django}\footnote{\url{https://www.djangoproject.com/}} (but we won't use Django because it 
+  already provides tools against CSRF attack). We can also build a small website with PHP from 
+  scratch. This language provides lots of database integration tools\footnote{PHP provides classes as \textit{PDO} (\url{http://php.net/manual/en/book.pdo.php}) 
+  which protects from SQL injections thanks to prepared statements but this is not the point of this seminar.} 
+  and session management.
   
   \subsection{Limitations}
 
   In this seminar, we won't study browser mechanisms which allow or prevent cross-origin 
   request (XHR request from JavaScript for instance). Moreover, we won't go deep in HTTP 
-  protocol~\cite{rfc2616} and we will focus our attention on GET and POST methods only~\cite[5.1.1]{rfc2616}.
-  % TODO to complete
+  protocol~\cite{rfc2616} and we will focus our attention on GET and POST methods 
+  only~\cite[5.1.1]{rfc2616}. Finally, we won't cover all strategies (implemented by lots 
+  of framework) to prevent CSRF attack, but we will try to be as exhaustive as possible.
+  
+  \section{Conclusion}
+  
+  % TODO
   
 % bibliography
 \bibliographystyle{plainurl}
