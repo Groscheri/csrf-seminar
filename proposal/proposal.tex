@@ -23,8 +23,10 @@
 \setlength{\parskip}{1em}
 
 % TODO Title of the seminar CSRF Attack: even Google was vulnerable
-\title{Internet Security \& Privacy\\Seminar -- Proposal}
-\author{David KUFA \& Quentin LEMAIRE}
+\title{Internet Security \& Privacy\\Seminar -- Proposal\\\vspace{10pt}\textbf{CSRF attack: even Google was vulnerable.}}
+\author{David KUFA \& Quentin LEMAIRE\\Group 26}
+
+\newcommand{\csrf}{\textit{Cross-Site Request Forgery}}
 
 \begin{document}
 
@@ -32,13 +34,22 @@
 
   \begin{abstract}
   % TODO abstract/resume of the seminar
+  \csrf{} (CSRF) -- often spelled ``sea surf'' -- is a well-known web attack which has 
+  been discovered in 2001. The \textit{Open Web Application Security Project} (OWASP \cite{owasp}) 
+  ranked CSRF as the 8th vulnerabily in the top 10 of the most critical web application 
+  security risks in 2013~\cite{owasp_top_ten}.
+  % TODO to complete
+
   \end{abstract}
+  
+% What will you do?
+% Which tools will you use?
+% What's the goal (tutorial, security recommendations, a design description, implementation, ...)?
+% What are the limitations? What will you NOT do?
 
 
-  \section{Introduction}
+  \section{Meta-information}
 
-  % TODO group number
-  % TODO names of students
   % TODO schedule conflicts (Dec 15 & 16)
   % TODO title
 
@@ -47,5 +58,36 @@
   % TODO section headlines
   % More concrete description of topic proposal wrote on the wiki page
   % Final report must ideally be extended from proposal
+  
+  The goal of this seminar is to get further understanding on the CSRF attack. We believe 
+  that a theoretical part with example (practical) is mandatory in order to fully understand 
+  how this vulnerability exists and how to prevent it. That's why we will focus our attention 
+  on the implementation of a small web server delivering vulnerable and none vulnerable 
+  services. This practical part must be short enough in order to, in a second part, focus our 
+  attention on 2 Google attacks due to CSRF vulnerability. We will cover the specificities 
+  of both attacks and we will see the differences and the impacts of those two security 
+  breaches.
+  
+  \subsection{Seminar plan}
+  % plan
+  
+  \begin{enumerate}
+   \item CSRF: how it works ?
+   \item CSRF: how to prevent it ?
+   \item Some stories about CSRF
+   \begin{itemize}
+    \item Google: 2 vulnerabilities in 2007 (contact list spoofing \& email filter hijacking)
+    \item Other important attacks [TODO] % TODO
+   \end{itemize}
+  \end{enumerate}
+  
+  \subsection{Practical part}
+  
+  \subsection{Limitations}
+
+  
+% bibliography
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}
