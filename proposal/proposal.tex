@@ -41,17 +41,16 @@
   % TODO to complete
 
   \end{abstract}
-  
-% What will you do?
-% Which tools will you use?
-% What's the goal (tutorial, security recommendations, a design description, implementation, ...)?
-% What are the limitations? What will you NOT do?
 
 
   \section{Meta-information}
-
-  % TODO schedule conflicts (Dec 15 & 16)
-  % TODO title
+  
+  \begin{description}
+   \item[Group number] 26
+   \item[Group members] \textsc{David KUFA} \& \textsc{Quentin LEMAIRE}
+   \item[Title] CSRF attack: even Google was vulnerable
+   \item[Schedule conflicts (Dec 15 \& 16)] None
+  \end{description}
 
   \section{Outlines}
   
@@ -59,11 +58,16 @@
   % More concrete description of topic proposal wrote on the wiki page
   % Final report must ideally be extended from proposal
   
-  The goal of this seminar is to get further understanding on the CSRF attack. We believe 
-  that a theoretical part with example (practical) is mandatory in order to fully understand 
-  how this vulnerability exists and how to prevent it. That's why we will focus our attention 
+  % What will you do?
+  % Which tools will you use?
+  % What's the goal (tutorial, security recommendations, a design description, implementation, ...)?
+  % What are the limitations? What will you NOT do?
+  
+  The goal of this seminar is to get deeper understanding on the CSRF attack. We believe 
+  that a theoretical part associated with practical examples is mandatory in order to fully understand 
+  where this vulnerability comes from and how to prevent it. That's why we will focus our attention 
   on the implementation of a small web server delivering vulnerable and none vulnerable 
-  services. This practical part must be short enough in order to, in a second part, focus our 
+  services (from CSRF attack). This practical part must be short enough in order to, in a second part, focus our 
   attention on 2 Google attacks due to CSRF vulnerability. We will cover the specificities 
   of both attacks and we will see the differences and the impacts of those two security 
   breaches.
@@ -83,11 +87,17 @@
   
   \subsection{Practical part}
   
+  % TODO
+  
   \subsection{Limitations}
 
+  In this seminar, we won't study browser mechanisms which allow or prevent cross-origin 
+  request (XHR request from JavaScript for instance). Moreover, we won't go deep in HTTP 
+  protocol~\cite{rfc2616} and we will focus our attention on GET and POST methods only~\cite[5.1.1]{rfc2616}.
+  % TODO to complete
   
 % bibliography
-\bibliographystyle{plain}
+\bibliographystyle{plainurl}
 \bibliography{references}
 
 \end{document}
