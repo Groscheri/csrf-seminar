@@ -88,8 +88,8 @@
    \item CSRF: how to prevent it ? Implementation of a protected web service with different methods of protection.
    \item Some stories about CSRF: 2 Google vulnerabilities in 2007.
    \begin{itemize}
-    \item Contact list spoofing: it was possible to retrieve all the contact list of an user.
-    \item Email filter hijacking: it was possible to forward all email of an user to another selected email address. This attack had a great impact on Gmail users trust.
+    \item Contact list spoofing: it was possible to retrieve all the contact list of an user~\cite{gmail_contact_list_csrf, gmail_contact_list_csrf2}.
+    \item Email filter hijacking: it was possible to forward all email of an user to another selected email address~\cite{gmail_hijack_csrf, gmail_hijack_csrf2}. This attack had a great impact on Gmail users trust.
    \end{itemize}
   \end{enumerate}
   
@@ -100,15 +100,17 @@
   during the oral presentation but we may use this part as a common thread for our explanations. 
   
   Technically speaking, we will implement a small platform using either \textit{Apache 2.4}\footnote{\url{https://httpd.apache.org/}} or \textit{nginx}\footnote{\url{http://nginx.org/}} as a web 
-  server. We own a small \textit{Raspberry Pi}\footnote{\url{https://www.raspberrypi.org/}} in which we can develop this platform. It will contains several 
-  things:
+  server. As a database, we can either use \textit{MySQL}\footnote{\url{http://www.mysql.com/}} or \textit{PostgreSQL}\footnote{\url{http://www.postgresql.org/}} which are relational databases. We own a small \textit{Raspberry Pi}\footnote{\url{https://www.raspberrypi.org/}} 
+  in which we can develop this platform. It will contain several things:
   \begin{itemize}
-   \item An authentication system, which is part of the attack, an attack wants to forge request on the behalf of an user, and he or she has to be connected.
+   \item An authentication system, which is part of the attack, an attacker wants to forge request on the behalf of an user, and he or she has to be connected.
    \item A vulnerable service: a GET or POST service which updates data about the user (password for instance).
    \item Some protected services with different protection methods:
    \begin{itemize}
     \item CSRF tokens known from the server and the client ;
     \item Signed tokens with a private secret (only known by the server), this is a simple way to avoid saving and storing tokens but this method has several drawbacks like ``golden'' token (if the token is stolen, it can be reused on the user's behalf). This protection method will use what we've learnt from the symmetric encryption and hashing lectures of this course ;
+    \item Confirmation pop-up ;
+    \item Session information in URL in order to ``randomize'' the URL request as much as possible ;
     \item \textit{HTTP-REFERER} check but since this value comes from the client (which has been tricked), it can't be trusted.
    \end{itemize}
   \end{itemize}
@@ -136,14 +138,20 @@
   
   We hope this project will suit your expectations and that it's not too ambitious on the 
   other hand. We had difficulties to find a topic which suits for both of us and we are 
-  aware that we don't have the same knowledge about the subject. CSRF attack are nowadays 
-  well-known from developers and web security researchers. Lots of interesting papers have 
+  aware that we don't have the same knowledge about the subject. CSRF attacks are nowadays 
+  well-known by developers and web security researchers. Lots of interesting papers have 
   been written on the subject and this seminar doesn't intend to rewrite what was already 
   done. The aim is to deal with a real subject with practical implementations. Furthermore, 
   it is important to analyze and compare 2 different stories about this attack because it 
-  will probably help us to understand how ``impactful'' web security breaches can be and how 
-  important it is to prevent systems from these attacks (even and mostly in huge companies 
+  will probably help us to understand the possible impact of web security breaches and to be aware  
+  of the importance of preventing systems from these attacks (even and mostly in huge companies~\cite{popular_csrf_attacks} 
   like Google).
+  
+  
+  % all nocite references
+  \nocite{wikipedia}
+  \nocite{owasp_csrf}
+  \nocite{owasp_csrf_presentation}
   
 % bibliography
 \bibliographystyle{plainurl}
