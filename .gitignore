@@ -1,3 +1,6 @@
 proposal/*
 !proposal/*.bib
 !proposal/*.tex
+*.swp
+*.pyc
+*.directory
