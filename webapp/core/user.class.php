@@ -4,11 +4,33 @@
 class user {
 
     public static function login($_login, $_password) {
-        // TODO
-
         // retrieve hash for `$_login` user with SQL query
-        // return self::check_password($hash, $_password)
+        $user = DB::Prepare("SELECT `login`, `password` FROM users WHERE `login` = :login;", array('login' => $_login));
+
+        if (!is_array($user)) {
+            return false;
+        }
+
+        $hash = $user['password'];
+        if (self::check_password($hash, $_password)) {
+            // store session
+            $_SESSION = array();
+            $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+            $_SESSION['user'] = $user;
+            redirect('?p=interests');
+        }
         return false;
+    }
+
+    public static function disconnect() {
+        // destroy session
+        if (isset($_SESSION)) {
+            $_SESSION = array();
+            unset($_SESSION);
+            session_unset();
+            session_destroy();
+        }
+        return true;
     }
 
     public static function register($_login, $_password, $_email) {

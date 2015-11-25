@@ -1,10 +1,16 @@
 <?php
 // utils functions
+define('PHP', 'php');
+define('JS', 'js');
+
+function redirect($url, $code = 303) {
+    // redirect wrapper
+    header('Location: ' . $url, true, $code);
+    die(); // to prevent attack
+}
 
 function include_file($_folder, $_filename, $_type) {
-    define('PHP', 'php');
-    define('JS', 'js');
-    
+    // include file wrapper
     $allowed_types = array(PHP, JS, 'class');
     if (!in_array($_type, $allowed_types)) {
         return -1; // type not allowed
