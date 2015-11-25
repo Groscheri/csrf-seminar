@@ -15,6 +15,7 @@ class user {
         if (self::check_password($hash, $_password)) {
             // store session
             $_SESSION = array();
+            $_SESSION['logged'] = true;
             $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['user'] = $user;
             return true;
@@ -44,6 +45,13 @@ class user {
         print $hash;
         // insert user in database
         // handle error (duplication, ...)
+        return false;
+    }
+
+    public static function is_logged() {
+        if (isset($_SESSION['logged'])) {
+            return $_SESSION['logged'];
+        }
         return false;
     }
 

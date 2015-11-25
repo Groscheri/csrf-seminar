@@ -23,9 +23,14 @@ else {
 
 <?php
 if (isset($_GET['error'])) {
-?>
-<p>Wrong login/password combination!</p>
-<?php
+    $error = intval($_GET['error']);
+    $message = 'Wrong login/password combination!';
+
+    if ($error == 2) {
+        $message = 'You must be connected to access this page!';
+    }
+
+    echo '<p>' . $message . '</p>';
 }
 ?>
 
