@@ -7,7 +7,10 @@ if (!empty($_POST['login']) && !empty($_POST['password'])) {
 
     $connected = user::login($login, $password);
 
-    if (!$connected) {
+    if ($connected) {
+        redirect('?p=interests');
+    }
+    else {
         redirect("?p=connect&error=1");
     }
     die();
@@ -22,6 +25,14 @@ else {
 if (isset($_GET['error'])) {
 ?>
 <p>Wrong login/password combination!</p>
+<?php
+}
+?>
+
+<?php
+if (isset($_GET['disconnected'])) {
+?>
+<p>You have been successfully disconnected!</p>
 <?php
 }
 ?>

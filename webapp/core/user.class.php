@@ -17,7 +17,7 @@ class user {
             $_SESSION = array();
             $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['user'] = $user;
-            redirect('?p=interests');
+            return true;
         }
         return false;
     }
