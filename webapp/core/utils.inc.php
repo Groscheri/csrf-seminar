@@ -42,5 +42,5 @@ function include_file($_folder, $_filename, $_type) {
 
 include_file('core', 'db', 'class'); // include DB
 include_file('core', 'user', 'class'); // include user
-
+include_file('core', 'interest', 'class'); // include interest
 ?>

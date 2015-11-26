@@ -5,7 +5,7 @@ class user {
 
     public static function login($_login, $_password) {
         // retrieve hash for `$_login` user with SQL query
-        $user = DB::Prepare("SELECT `login`, `password`, `email` FROM users WHERE `login` = :login;", array('login' => $_login));
+        $user = DB::Prepare("SELECT `id`, `login`, `password`, `email` FROM users WHERE `login` = :login;", array('login' => $_login));
 
         if (!is_array($user)) {
             return false;
