@@ -1,5 +1,8 @@
 <?php
 // register page
+if (user::is_logged()) {
+    redirect('?p=interests');
+}
 
 if (!empty($_POST['login']) && !empty($_POST['password']) && !empty($_POST['email'])) {
     $login = $_POST['login'];
@@ -8,15 +11,18 @@ if (!empty($_POST['login']) && !empty($_POST['password']) && !empty($_POST['emai
     $email = $_POST['email'];
 
     if ($password !== $password2) {
-        redirect("?p=register&error=1");
+        redirect("?p=register&error=3"); // not same password
     }
 
     $registered = user::register($login, $password, $email);
-    if ($registered) {
+    if ($registered == 0) {
         redirect("?p=connect");
     }
+    elseif ($registered == -2) {
+        redirect("?p=register&error=2"); // duplication
+    }
     else {
-        redirect("?p=register&error=1");
+        redirect("?p=register&error=1"); // unknown error
     }
     die();
 }
@@ -28,9 +34,22 @@ else {
 
 <?php
 if (isset($_GET['error'])) {
-?>
-<p>Impossible to create an account with these settings!</p>
-<?php
+    $code = intval($_GET['error']);
+    $message = '';
+
+    if ($code == 1) {
+        // unknown
+        $message = 'Impossible to create an account with these settings!';
+    }
+    elseif ($code == 2) {
+        // duplication
+        $message = 'This login has already been taken!';
+    }
+    elseif ($code == 3) {
+        // not same password
+        $message = 'Passwords are not the same!';
+    }
+    echo '<p>' . $message . '</p>';
 }
 ?>
 

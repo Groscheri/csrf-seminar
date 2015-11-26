@@ -1,5 +1,9 @@
 <?php
 // connection page
+if (user::is_logged()) {
+    redirect('?p=interests');
+}
+
 
 if (!empty($_POST['login']) && !empty($_POST['password'])) {
     $login = $_POST['login'];

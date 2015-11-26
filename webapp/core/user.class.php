@@ -5,7 +5,7 @@ class user {
 
     public static function login($_login, $_password) {
         // retrieve hash for `$_login` user with SQL query
-        $user = DB::Prepare("SELECT `login`, `password` FROM users WHERE `login` = :login;", array('login' => $_login));
+        $user = DB::Prepare("SELECT `login`, `password`, `email` FROM users WHERE `login` = :login;", array('login' => $_login));
 
         if (!is_array($user)) {
             return false;
@@ -17,6 +17,9 @@ class user {
             $_SESSION = array();
             $_SESSION['logged'] = true;
             $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+
+            // remove password from $user
+            unset($user['password']);
             $_SESSION['user'] = $user;
             return true;
         }
@@ -35,17 +38,31 @@ class user {
     }
 
     public static function register($_login, $_password, $_email) {
-        // TODO
-        echo "Registrating...\n";
-        echo $_login . ' / ' . $_password . ' / ' . $_email;
-
         // check user information
+        
         // hash password
         $hash = self::hash_password($_password);
-        print $hash;
+        
         // insert user in database
-        // handle error (duplication, ...)
-        return false;
+        $sql = 'INSERT INTO `users` (`login`, `password`, `email`) VALUES (:login, :password, :email)';
+        $params = array('login'    => $_login,
+                        'password' => $hash,
+                        'email'    => $_email);
+
+        // execute & handle error (duplication, ...)
+        try {
+            $result = DB::Prepare($sql, $params);
+        }
+        catch (Exception $e) {
+            $code = $e->getCode();
+
+            if ($code == 1062) {
+                // duplication
+                return -2;
+            }
+            return -1;
+        }
+        return 0;
     }
 
     public static function is_logged() {
