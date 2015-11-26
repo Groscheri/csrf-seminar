@@ -38,6 +38,14 @@ class DB {
         return static::$instance->connection;
     }
 
+    public static function last_insert_id() {
+        $db = self::getConnection();
+        if (!is_object($db)) {
+            return false;
+        }
+        return $db->lastInsertId();
+    }
+
     public static function &Prepare($_query, $_params = array(), $_fetchType = self::FETCH_TYPE_ROW) {
         if (!is_object(self::getConnection())) {
             return false;
