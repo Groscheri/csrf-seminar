@@ -67,5 +67,18 @@ class interest {
             return false;
         }
     }
+
+    public static function unbind_user($_id, $_user_id) {
+        $sql = 'DELETE FROM `users_interests` WHERE `user_id` = :user_id AND `interest_id` = :id';
+        $params = array('id'      => $_id,
+                        'user_id' => $_user_id);
+        try {
+            DB::Prepare($sql, $params);
+            return true;
+        }
+        catch (Exception $e) {
+            return false;
+        }
+    }
 }
 ?>

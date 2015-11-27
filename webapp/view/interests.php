@@ -18,11 +18,21 @@ if (isset($_GET['action'])) {
             if ($result === false) {
                 echo '<p>Impossible to add a new interest!</p>';
             }
-            echo '<p>Interest has been created!</p>';
+            else {
+                echo '<p>Interest has been created!</p>';
+            }
         }
     }
     elseif ($action == 'remove') {
-        // TODO
+        if (!empty($_GET['id'])) {
+            $result = interest::unbind_user($_GET['id'], $_SESSION['user']['id']);
+            if (!$result) {
+                echo '<p>Impossible to remove this interest!</p>';
+            }
+            else {
+                echo '<p>Interest has been removed!</p>';
+            }
+        }
     }
     else {
         // unknown action
