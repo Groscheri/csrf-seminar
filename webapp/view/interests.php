@@ -13,13 +13,20 @@ if (isset($_GET['action'])) {
 
     $action = $_GET['action'];
     if ($action == 'add') {
-        if (!empty($_POST['name']) && isset($_POST['description'])) {
-            $result = interest::add_and_bind_user($_POST['name'], $_POST['description'], $_SESSION['user']['id']);
-            if ($result === false) {
-                echo '<p>Impossible to add a new interest!</p>';
+        if (!empty($_POST['name']) && !empty($_POST['csrf_token']) && isset($_POST['description'])) {
+            $token = $_POST['csrf_token'];
+            $valid = csrf::check_signed_token($token);
+            if ($valid) {
+                $result = interest::add_and_bind_user($_POST['name'], $_POST['description'], $_SESSION['user']['id']);
+                if ($result === false) {
+                    echo '<p>Impossible to add a new interest!</p>';
+                }
+                else {
+                    echo '<p>Interest has been created!</p>';
+                }
             }
             else {
-                echo '<p>Interest has been created!</p>';
+                echo '<p>Wrong CSRF token!</p>';
             }
         }
     }
@@ -68,6 +75,7 @@ else {
 <h3>Create new interest</h3>
 
 <form method="POST" action="?p=interests&action=add">
+<input type="hidden" name="csrf_token" value="<?php echo csrf::generate_signed_token(); ?>" />
 <label for="name">Name: </label><input type="text" name="name" id="name" /><br />
 <label for="description">Description: </label><br />
 <textarea name="description" placeholder="Description optional"></textarea>

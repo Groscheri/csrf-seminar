@@ -3,8 +3,27 @@
 
 class csrf {
 
-    const SECRET_KEY = "a0e605ee21f0b7bdd85ff2edb8177dcf"; // 16 bytes key
+    const SECRET_KEY = 'a0e605ee21f0b7bdd85ff2edb8177dcf'; // 16 bytes key
+    const SEPARATOR = '$'; // mustn't be a base64 characters i.e. not from [0-9a-zA-Z/=+]
 
+    public static function generate_signed_token($size = 64) {
+        $token = self::generate_token($size);
+        $signed_token = self::sign_token($token);
+        return $token . self::SEPARATOR . $signed_token;
+    }
+
+    private static function sign_token($token) {
+        return hash_hmac('sha512', $token, self::SECRET_KEY);
+    }
+
+    public static function check_signed_token($received_token) {
+        // split
+        list($token, $signature) = explode(self::SEPARATOR, $received_token);
+        $signed_received_token = self::sign_token($token);
+        return $signature === $signed_received_token;
+    }
+
+    // obsolete
     private static function encrypt($message) {
         /*
         1- Generate an IV
@@ -25,6 +44,7 @@ class csrf {
         return base64_encode($iv . $cipher);;
     }
 
+    // obsolete
     private static function decrypt($cipher) {
         /*
         1- Decode the base64 encoding
@@ -57,6 +77,7 @@ class csrf {
         return $token === $session_token;
     }
 
+    // obsolete
     private static function sha512($value) {
         // return SHA-512 hash value in hexadecimal (128 bits)
         return hash('sha512', $value);
