@@ -72,6 +72,21 @@ class user {
         return false;
     }
 
+    public static function change_email($_id, $_email) {
+        $email = htmlentities($_email);
+        $sql = 'UPDATE `users` SET `email` = :email WHERE `id` = :id';
+        $params = array('id'    => $_id,
+                        'email' => $email);
+        try {
+            DB::Prepare($sql, $params);
+            $_SESSION['user']['email'] = $email;
+            return true;
+        }
+        catch (Exception $e) {
+            return false;
+        }     
+    }
+
     private static function check_password($hash, $_password) {
         // check password using password_verify builtin function
         return password_verify($_password, $hash);
