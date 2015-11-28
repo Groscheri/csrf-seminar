@@ -17,6 +17,7 @@ class user {
             $_SESSION = array();
             $_SESSION['logged'] = true;
             $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+            $_SESSION['token'] = csrf::generate_token();
 
             // remove password from $user
             unset($user['password']);
@@ -65,6 +66,19 @@ class user {
         return 0;
     }
 
+    public static function delete($_id) {
+        $sql = 'DELETE FROM `users` WHERE `id` = :id;';
+        $params = array('id' => $_id);
+
+        try {
+            DB::Prepare($sql, $params);
+            return true;
+        }
+        catch (Exception $e) {
+            return false;
+        }
+    }
+
     public static function is_logged() {
         if (isset($_SESSION['logged'])) {
             return $_SESSION['logged'];
@@ -95,7 +109,6 @@ class user {
     private static function hash_password($_password) {
         // hash password using bcrypt
         return password_hash($_password, PASSWORD_BCRYPT);
-    }
-
+    } 
 }
 ?>

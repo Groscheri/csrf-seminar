@@ -32,7 +32,7 @@
             You can take a look at your <a href="?p=interests" title="list of interests">list of interests</a> and update it at your convenience or <a href='?p=disconnect' title='Disconnection'>disconnect</a> from the platform.
             </p>
             <p>
-            You can also <a href="?p=email" title="Change email">change your email</a> if you want. This email will be used to change your password if you lose it.
+            You can also <a href="?p=account&action=email" title="Change email">change your email</a> if you want. This email will be used to change your password if you lose it.
             </p>
         <?php
             }
@@ -46,19 +46,27 @@
                 }
 
                 // corresponding to files in "view" folder
-                $allowed_actions = array('connect', 'disconnect', 'interests', 'register', 'email');
+                $allowed_actions = array('connect', 'disconnect', 'interests', 'register', 'account');
 
                 if (in_array($action, $allowed_actions)) {
                     $ret = include_file('view', $action, 'php');
                     ob_end_flush();
                     if ($ret != 0) {
-                        echo "Page not available at the moment !";
+                        echo "<p>Page not available at the moment !</p>";
                     }
                 }
                 else {
-                    echo "Page not found !";
+                    echo "<p>Page not found !</p>";
                 }
             ?>
         </div>
+
+        <br />
+        <hr />
+        <footer>
+            <center>
+                <p><small>CSRF Seminar - David KUFA &amp; Quentin LEMAIRE - <a href="?p=account&action=delete" title="Delete account">Delete account</a> - Copyright &copy; <?php echo date('Y'); ?></small></p>
+            </center>
+        </footer>
     </body>
 </html>

@@ -1,6 +1,12 @@
 <?php
 // disconnection page
 user::disconnect();
-redirect("?p=connect&disconnected");
+
+if (isset($_GET['delete'])) {
+    redirect("?p=connect&delete");
+}
+else {
+    redirect("?p=connect&disconnected");
+}
 die();
 ?>

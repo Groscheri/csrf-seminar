@@ -44,6 +44,11 @@ if (isset($_GET['disconnected'])) {
 <p>You have been successfully disconnected!</p>
 <?php
 }
+elseif (isset($_GET['delete'])) {
+?>
+<p>Account has been successfully deleted!</p>
+<?php
+}
 ?>
 
 <form method="POST" action="">
