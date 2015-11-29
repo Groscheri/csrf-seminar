@@ -3,6 +3,7 @@ proposal/*
 !proposal/*.tex
 report/*
 !report/*.tex
+!report/*.bib
 *.swp
 *.pyc
 *.directory
