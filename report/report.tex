@@ -1,8 +1,8 @@
-\documentclass[a4paper,11pt]{article}
+\documentclass[a4paper,11pt]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage[font=small,labelfont=bf, textfont=it]{caption}
-\usepackage[bottom=2cm, left=3.7cm, right=3.7cm]{geometry} % to change padding
+%\usepackage[bottom=2cm, left=2.5cm, right=2.5cm]{geometry} % to change padding
 \usepackage{verbatim}
 \usepackage{subcaption} % for multi figure
 \usepackage{enumitem} % -- label item
@@ -22,36 +22,218 @@
 \setlength\parindent{0pt}
 \setlength{\parskip}{1em}
 
-\title{Internet Security \& Privacy\\Seminar -- Report\\\vspace{10pt}\textbf{CSRF attack: even Google was vulnerable.}}
-\author{Quentin Lemaire \& David Kufa\\Group 26}
+\renewcommand\thesection{\arabic{section}} % start section from 1
+\setcounter{tocdepth}{2} % display subsection
+\setcounter{secnumdepth}{3} % number subsubsection
+
+% \title{Internet Security \& Privacy\\Seminar -- Report\\\vspace{10pt}\textbf{CSRF attack: even Google was vulnerable.}}
+% \author{Quentin Lemaire \& David Kufa\\Group 26}
+
+\newcommand{\csrf}{\textit{Cross-Site Request Forgery}}
 
 
 \begin{document}
 
-  \maketitle % build title
+  % first page
+ \begin{titlepage}
+  \centering
+  \vspace*{\stretch{1}}
+  \vfill
+    {\bfseries\Large{
+	Internet Security \& Privacy\\
+	Seminar -- Report}
+    }    
+  \vfill
+  \vfill
+    \Huge{\textsc{CSRF attack: even Google was vulnerable.}}
+  \vfill
+      \Large{\textsc{David Kufa} \& \textsc{Quentin Lemaire}}
+    \\
+  \vspace{0.4cm}
+    Group 26
+  \vfill
+  \vfill
+    % \includegraphics[width=0.22\textwidth]{kth.jpg}
+    KTH Royal Institute of Technology
+  \vfill
+    \today
+  \vspace*{\stretch{1}}
+\end{titlepage}
 
-  \begin{abstract}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+% abstract
+\begin{abstract}
+  \csrf{} (CSRF) -- often spelled ``sea surf'' -- is a well-known web attack which has 
+  been discovered in 2001. The \textit{Open Web Application Security Project} (OWASP \cite{owasp}) 
+  ranked CSRF as the 8th\footnote{In 2007 \& 2010 OWASP's tops ten, CSRF was at the 5th position 
+  (\url{https://www.owasp.org/index.php/Top_10_2007} \& \url{https://www.owasp.org/index.php/Top_10_2010}).} 
+  vulnerabily in the top 10 of the most critical web application security risks in 2013~\cite{owasp_top_ten}.
+  
+  CSRF attack consists in creating (forging) fake HTTP or HTTPS\footnote{TLS encrypts 
+  information between the client (browser) and the server in order to prevent sniffing 
+  in untrusted networks and man in the middle attacks but it doesn't protect from 
+  legitimate requests.} requests on the user's behalf. It utilizes the lack of knowledge 
+  of the victim to build the request and get information with their credentials (as if 
+  the user really wanted to execute this request). In order to succeed, the victim must 
+  be connected (authenticated) to the service (website) where there is the vulnerability. 
+  Then, an attacker will have to fool the victim in order to build the fake request (with 
+  social engineering for instance).
+  
+  During this seminar, we wanted to get a better understanding of the security breaches 
+  involved in CSRF attack. The most interesting part consisted in the comprehension of 
+  the surface of attack, how this attack can be done and where does it come from. It 
+  was also important to understand what kind of information an attacker could steal or 
+  affect on the user's behalf thanks to this attack. Furthermore, it was relevant to study 
+  different ways of detecting the vulnerability and how to protect web servers from this 
+  attack.
+  
+  In a second part, we focused our attention on concrete applications of CSRF vulnerabilities. 
+  Lots of companies were affected in the past and we decided to deal with Google well-known 
+  stories about CSRF. Indeed, 2 different vulnerabilities were discovered in 2007 concerning 
+  Gmail \footnote{\url{https://mail.google.com/}} email service.
+  
+  Finally, we implemented a small webapp with different services, either vulnerable or protected 
+  from CSRF attack. This webapp associated with an attacker website, both developped from scratch, 
+  outline different practical examples of the attack and different ways to prevent it.
   \end{abstract}
+  
+%   \begin{enumerate}
+%    \item CSRF: how it works ? Implementation of a vulnerable web service.
+%    \item CSRF: how to prevent it ? Implementation of a protected web service with different methods of protection.
+%    \item Some stories about CSRF: 2 Google vulnerabilities in 2007.
+%    \begin{itemize}
+%     \item Contact list spoofing: it was possible to retrieve all the contact list of an user~\cite{gmail_contact_list_csrf, gmail_contact_list_csrf2}.
+%     \item Email filter hijacking: it was possible to forward all email of an user to another selected email address~\cite{gmail_hijack_csrf, gmail_hijack_csrf2}. This attack had a great impact on Gmail users trust.
+%    \end{itemize}
+%   \end{enumerate}
 
+\tableofcontents{} % toc
+\clearpage % leave a page
+\setcounter{page}{1} % init counter page
+
+  % TODO part1: overview of CSRF
+  % TODO     * Description & Identification
+  % TODO     * Exploitation
+  % TODO     * Recommandations: how to prevent CSRF ?
+  
+  % TODO part2: Google stories: how ? impact ?
+  % TODO     * Contact list spoofing
+  % TODO     * Email filter hijacking
 
   \section{Introduction}
   
-  \subsection{Google falls victim}
+  This report is split in two different parts. First, it deals with \csrf{} (CSRF) attack in 
+  a theoretical and practical way. Academic examples and explanations describe and explore 
+  different aspects and subtilities of CSRF. The second part of this report is about concrete 
+  uses (in ``real life'') of CSRF attack with 2 use cases about Google Gmail service.
 
   \section{Overview of CSRF}
   
-  \subsection{Explanation by example}
+  For each kind of WEB vulnerabilities, it is important to know how to detect them and 
+  how to prevent them. We will explain in more details what is CSRF attack, how to 
+  identify and exploit CSRF vulnerable services and finally how to protect these services. 
+  Every explanations will be followed with example from a web application we developped. 
+  This web application provides different services in order to manage and store a list of 
+  interests (hobbies). More explanations from the technical documentation can be found 
+  in appendix~\ref{app:practical_documentation}.
   
-  \subsection{What exactly happened to Google?}
+  \subsection{Description \& Identification}
   
-  \subsection{How to protect yourself from CSRF}
+  \subsection{Exploitation}
   
-  \section{Practical scenario: redoing the Google attacks}
+  \subsection{How to prevent it ?}
   
-  \subsection{Material and methods}
+  \subsubsection{Tokens}
+  
+  \paragraph{Session token} % each session has an associated token (this token can change for each action done)
+  \paragraph{Signed token} % show code as example (using HMAC)
+  
+  \subsubsection{Challenges}
+  
+  \paragraph{Double authentication} % retype password
+  \paragraph{CAPTCHA} % find a text inside a picture (similar to token)
+  
+  \subsubsection{Other protections}
+  
+  Recommandations described above are not exhaustives. It is possible to combine them in order to increase 
+  the security of the application against CSRF attack.
+  
+  
+%   We are aware that it will be difficult to make a demonstration during the oral presentation 
+%   because we don't have too much time for this. That's why we won't show our practical part 
+%   during the oral presentation but we may use this part as a common thread for our explanations. 
+%   
+%   Technically speaking, we will implement a small platform using either \textit{Apache 2.4}\footnote{\url{https://httpd.apache.org/}} or \textit{nginx}\footnote{\url{http://nginx.org/}} as a web 
+%   server. As a database, we can either use \textit{MySQL}\footnote{\url{http://www.mysql.com/}} or \textit{PostgreSQL}\footnote{\url{http://www.postgresql.org/}} which are relational databases. We own a small \textit{Raspberry Pi}\footnote{\url{https://www.raspberrypi.org/}} 
+%   in which we can develop this platform. It will contain several things:
+%   \begin{itemize}
+%    \item An authentication system, which is part of the attack, an attacker wants to forge request on the behalf of an user, and he or she has to be connected.
+%    \item A vulnerable service: a GET or POST service which updates data about the user (password for instance).
+%    \item Some protected services with different protection methods:
+%    \begin{itemize}
+%     \item CSRF tokens known from the server and the client ;
+%     \item Signed tokens with a private secret (only known by the server), this is a simple way to avoid saving and storing tokens but this method has several drawbacks like ``golden'' token (if the token is stolen, it can be reused on the user's behalf). This protection method will use what we've learnt from the symmetric encryption and hashing lectures of this course ;
+%     \item Confirmation pop-up ;
+%     \item Session information in URL in order to ``randomize'' the URL request as much as possible ;
+%     \item \textit{HTTP-REFERER} check but since this value comes from the client (which has been tricked), it can't be trusted.
+%    \end{itemize}
+%   \end{itemize}
+%   
+%   According to the programming language, we don't have any preferences. Python seems to be very easy to 
+%   compute with libraries like \textit{Flask}\footnote{\url{http://flask.pocoo.org/}} or 
+%   \textit{Django}\footnote{\url{https://www.djangoproject.com/}} (but we won't use Django because it 
+%   already provides tools against CSRF attack). We can also build a small website with PHP from 
+%   scratch. This language provides lots of database integration tools\footnote{PHP provides classes as \textit{PDO} (\url{http://php.net/manual/en/book.pdo.php}) 
+%   which protects from SQL injections thanks to prepared statements but this is not the point of this seminar.} 
+%   and session management.
+%   
+%   Finally, in order to build reports and presentations (beamer), we will use \LaTeX{} and we will utilize a version control system to 
+%   version and backup our code (\textit{Git}).
+  
+
+  \section{Google, vulnerable to CSRF in 2007}
+  
+  % TODO put in context
+  
+  \subsection{Contact list spoofing}
+  % TODO
+  \subsubsection{Description}
+  % TODO
+  \subsubsection{Exploitation}
+  % TODO
+  \subsubsection{Impact}
+  % TODO
+  
+  
+  \subsection{Email filter hijacking}
+  % TODO
+  \subsubsection{Description}
+  % TODO
+  \subsubsection{Exploitation}
+  % TODO
+  \subsubsection{Impact}
+  % TODO
+  
+  \subsection{Comparison}
+  % TODO
+  
+  
   
   \section{Conclusion}
+  % TODO conclusion
+
+  
+  % TODO all \nocite{}
+  
+  
+  
+% appendix
+\newpage
+\appendix
+\chapter{Web application's screenshots} \label{app:screenshots}
+% TODO
+
+\chapter{Practical documentation} \label{app:practical_documentation}
+% TODO
   
   
 % bibliography
