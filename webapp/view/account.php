@@ -14,7 +14,7 @@ if (isset($_GET['action'])) {
     if ($action == 'email') {
         if (isset($_GET['ok'])) {
             // email change successful
-            echo '<p>Mail has been successfuly changed!</p>';
+            echo '<p style="color:green;">Mail has been successfuly changed!</p>';
         }
         elseif (!empty($_POST['email'])) {
             // email change request
@@ -43,7 +43,7 @@ if (isset($_GET['action'])) {
                 }
             }
             else {
-                echo '<p>Wrong CSRF token!</p>';
+                echo '<p style="color:red;">Wrong CSRF token!</p>';
             }
         }
     }

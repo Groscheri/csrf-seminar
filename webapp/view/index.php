@@ -21,7 +21,8 @@
         </header>
 
         <?php
-            if (user::is_logged()) {
+            $logged = user::is_logged();
+            if ($logged) {
                 $login = $_SESSION['user']['login'];
                 $email = $_SESSION['user']['email'];
         ?>
@@ -65,7 +66,7 @@
         <hr />
         <footer>
             <center>
-                <p><small>CSRF Seminar - David KUFA &amp; Quentin LEMAIRE - <a href="?p=account&action=delete" title="Delete account">Delete account</a> - Copyright &copy; <?php echo date('Y'); ?></small></p>
+                <p><small>CSRF Seminar - David KUFA &amp; Quentin LEMAIRE <?php if ($logged) { echo' - <a href="?p=account&action=delete" title="Delete account">Delete account</a>'; } ?> - Copyright &copy; <?php echo date('Y'); ?></small></p>
             </center>
         </footer>
     </body>

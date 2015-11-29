@@ -26,7 +26,7 @@ if (isset($_GET['action'])) {
                 }
             }
             else {
-                echo '<p>Wrong CSRF token!</p>';
+                echo '<p style="color:red;">Wrong CSRF token!</p>';
             }
         }
     }
@@ -37,7 +37,7 @@ if (isset($_GET['action'])) {
                 echo '<p>Impossible to remove this interest!</p>';
             }
             else {
-                echo '<p>Interest has been removed!</p>';
+                echo '<p style="color:green;">Interest has been removed!</p>';
             }
         }
     }
