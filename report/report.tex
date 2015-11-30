@@ -11,12 +11,12 @@
 \usepackage[usenames, dvipsnames]{xcolor} % color
 \usepackage[framemethod=TikZ]{mdframed} % box
 \usepackage{listings} % code
-%\usepackage{minted} % code
+\usepackage{minted} % code
 %\usepackage{amsmath} % align* maths
 \usepackage{wrapfig}
+\usepackage[section]{placeins} % float inside subsection
 \usepackage[bookmarks, hidelinks]{hyperref} % clickable links
 \usepackage{graphicx} % includegraphics
-\usepackage[section]{placeins} % float inside section
 \usepackage{indentfirst}
 
 \setlength\parindent{0pt}
@@ -66,7 +66,7 @@
   been discovered in 2001. The \textit{Open Web Application Security Project} (OWASP \cite{owasp}) 
   ranked CSRF as the 8th\footnote{In 2007 \& 2010 OWASP's tops ten, CSRF was at the 5th position 
   (\url{https://www.owasp.org/index.php/Top_10_2007} \& \url{https://www.owasp.org/index.php/Top_10_2010}).} 
-  vulnerabily in the top 10 of the most critical web application security risks in 2013~\cite{owasp_top_ten}.
+  vulnerability in the top 10 of the most critical web application security risks in 2013~\cite{owasp_top_ten}.
   
   CSRF attack consists in creating (forging) fake HTTP or HTTPS\footnote{TLS encrypts 
   information between the client (browser) and the server in order to prevent sniffing 
@@ -123,29 +123,117 @@
   
   This report is split in two different parts. First, it deals with \csrf{} (CSRF) attack in 
   a theoretical and practical way. Academic examples and explanations describe and explore 
-  different aspects and subtilities of CSRF. The second part of this report is about concrete 
-  uses (in ``real life'') of CSRF attack with 2 use cases about Google Gmail service.
+  different aspects and subtilities of CSRF attack. The second part of this report is about concrete 
+  uses (in ``real life'') of CSRF breaches with 2 use cases about Google Gmail service.
 
   \section{Overview of CSRF}
   
   For each kind of WEB vulnerabilities, it is important to know how to detect them and 
   how to prevent them. We will explain in more details what is CSRF attack, how to 
   identify and exploit CSRF vulnerable services and finally how to protect these services. 
-  Every explanations will be followed with example from a web application we developped. 
+  Every explanations will be followed with example from a web application we developed. 
   This web application provides different services in order to manage and store a list of 
   interests (hobbies). More explanations from the technical documentation can be found 
   in appendix~\ref{app:practical_documentation}.
   
   \subsection{Description \& Identification}
   
+  % TODO explain how CSRF work (reuse abstract)
+  
   \subsection{Exploitation}
+  
+  % TODO example with webapp
   
   \subsection{How to prevent it ?}
   
+  % TODO example with webapp
+  
   \subsubsection{Tokens}
   
-  \paragraph{Session token} % each session has an associated token (this token can change for each action done)
+  \paragraph{Session token}
+  It is possible to use a session token which is a ``random'' number generated at the beginning 
+  of the user's session (authentication). The token is sent by the server in every forms (for POST 
+  requests) as a hidden HTML input (as shown in figure~\ref{figure:session_token_client}) or URL 
+  (for GET requests) as a parameter. This number must be sent by the browser in every requests in 
+  order to achieve a service. In order to avoid replay attack, it is important to change this token 
+  after each use of service. Token must be stored in the user's session on the server to check its 
+  validity (as shown in figure~\ref{figure:session_token_server}).
+  
+  \begin{figure}[h!t]
+  \begin{minted}[linenos]{html}
+<form method="POST" action="?p=account&action=delete">
+    <input type="hidden" name="csrf_token" value="5XWla[...]hHNPpXs=" />
+    <input type="submit" value="I'm sure I want to delete my account" />
+</form>
+  \end{minted}
+  \caption{Example of a session token (client side)}
+  \label{figure:session_token_client}
+  \end{figure}
+  
+  \begin{figure}[h!t]
+  \begin{minted}[linenos]{php}
+<?php
+$token = $_POST['csrf_token'];
+$valid_request = $token === $_SESSION['token'];
+?>
+  \end{minted}
+  \caption{Code to check session token (server side)}
+  \label{figure:session_token_server}
+  \end{figure}
+  
   \paragraph{Signed token} % show code as example (using HMAC)
+  It is possible to use a Hash based Message Authentication Code (HMAC) in order to ``sign'' 
+  generated token. With a private secret only known by the server, tokens are signed using 
+  HMAC and this hash is concatenated to the token before sending it to user (in a hidden 
+  HTML input as shown in figure~\ref{figure:signed_token_client}). This signed token avoid 
+  storage of tokens in session but this method has several drawbacks like ``golden'' token. 
+  Indeed, if the token is stolen (somehow), it can be reused on the user's behalf. In order 
+  to prevent this kind of event to happen, it is possible to append a timestamp (time to 
+  leave) after the token value. HMAC will protect the timestamp from modification (integrity 
+  check) so there is no need to encrypt it. Example to build and check tokens is displayed 
+  in figure~\ref{figure:signed_token_server}.
+  
+  \begin{figure}[h!t]
+  \begin{minted}[linenos]{html}
+<form method="POST" action="?p=interests&action=add">
+    <input type="hidden" name="csrf_token" 
+        value="WQJCXDUivLPd1r5OLW[...]OYdw==$f75bfabe1[...]04394e6b" />
+    [...]
+    <input type="submit" value="Create interest" />
+</form>
+  \end{minted}
+  \caption{Example of a signed token (client side). The value is split in 2 parts: the first part 
+  (before \$ symbol) contains the token. The second part (after \$ symbol), there is the HMAC which 
+  will let the server check integrity of the token.}
+  \label{figure:signed_token_client}
+  \end{figure}
+  
+  \begin{figure}[h!t]
+  \begin{minted}[linenos]{PHP}
+<?php
+const SECRET_KEY = 'a0e605ee21f0b7bdd85ff2edb8177dcf'; // 16 bytes key
+const SEPARATOR = '$'; // not base64 chars i.e. not from [0-9a-zA-Z/=+]
+
+public static function generate_signed_token($size = 64) {
+    $token = self::generate_token($size); // base64 token
+    $signed_token = self::sign_token($token);
+    return $token . self::SEPARATOR . $signed_token;
+}
+
+private static function sign_token($token) {
+    return hash_hmac('sha512', $token, self::SECRET_KEY);
+}
+  
+public static function check_signed_token($received_token) {
+    list($token, $signature) = explode(self::SEPARATOR, $received_token); // split
+    $signed_received_token = self::sign_token($token); // sign received token
+    return $signature === $signed_received_token; // compare with signature
+}
+?>
+  \end{minted}
+  \caption{Code to check a signed token (server side).}
+  \label{figure:signed_token_server}
+  \end{figure}
   
   \subsubsection{Challenges}
   
@@ -154,7 +242,7 @@
   
   \subsubsection{Other protections}
   
-  Recommandations described above are not exhaustives. It is possible to combine them in order to increase 
+  Recommendations described above are not exhaustive. It is possible to combine them in order to increase 
   the security of the application against CSRF attack.
   
   
@@ -235,7 +323,8 @@
 The webapp developed is a small web application delivering different features 
 in order to store and manage a list of interests. It provides authentication and 
 interests'management. It has been developed from scratch with \textit{Apache 
-WEB server 2.4} and \textit{PHP 5.6}. The database used is \textit{MySQL 5.5} with 
+WEB server 2.4}\footnote{\url{https://httpd.apache.org/}} and \textit{PHP 5.6}. 
+The database used is \textit{MySQL 5.5}\footnote{\url{http://www.mysql.com/}} with 
 \textit{InnoDB} engine.
 
 \section{Specifications}
