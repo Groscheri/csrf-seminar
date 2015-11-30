@@ -137,16 +137,17 @@
   in appendix~\ref{app:practical_documentation}.
   
   \subsection{Description \& Identification}
-  
   % TODO explain how CSRF work (reuse abstract)
   
   \subsection{Exploitation}
-  
   % TODO example with webapp
   
   \subsection{How to prevent it ?}
-  
-  % TODO example with webapp
+  Websites are often vulnerable because of the lack of knowledge of developers. An attacker is able 
+  to forge a request because he or she is able to find (retro-engineering) the needed parameters in 
+  order to make the victim execute an HTTP request. Small tricks like one-time tokens or one-time challenges let 
+  developers protect their website from CSRF attack. Indeed, attacker won't be able to find the needed 
+  parameters anymore.
   
   \subsubsection{Tokens}
   
@@ -237,13 +238,23 @@ public static function check_signed_token($received_token) {
   
   \subsubsection{Challenges}
   
-  \paragraph{Double authentication} % retype password
-  \paragraph{CAPTCHA} % find a text inside a picture (similar to token)
+  \paragraph{Double authentication}
+  % TODO retype password
+  
+  \paragraph{CAPTCHA}
+  % TODO find a text inside a picture (similar to token)
+  
   
   \subsubsection{Other protections}
   
   Recommendations described above are not exhaustive. It is possible to combine them in order to increase 
-  the security of the application against CSRF attack.
+  the security of the application against CSRF attack. Lots of nowadays web development frameworks provide 
+  CSRF protecting tools and it is absolutely recommended to use them in production environment.
+  
+  Furthermore, it is important to tell users they have an important role to play to prevent these attacks. 
+  With common gestures (actions) like disconnecting of websites after using them, having different browsers 
+  for trusted and not trusted websites, using ``NoScript''\footnote{\url{https://noscript.net/}} extension to avoid JavaScript to be executed by 
+  untrusted websites, etc. it is possible to avoid such risks.
   
   
 %   We are aware that it will be difficult to make a demonstration during the oral presentation 
@@ -279,7 +290,6 @@ public static function check_signed_token($received_token) {
   
 
   \section{Google, vulnerable to CSRF in 2007}
-  
   % TODO put in context
   
   \subsection{Contact list spoofing}
@@ -317,7 +327,6 @@ public static function check_signed_token($received_token) {
 \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 
 \chapter{Practical documentation} \label{app:practical_documentation}
-% TODO
 
 \section{Introduction}
 The webapp developed is a small web application delivering different features 
@@ -400,7 +409,6 @@ Each attributes, table names and relations are defined in figure~\ref{figure:dat
   
   
 \chapter{Web application's screenshots} \label{app:screenshots}
-% TODO
 
 \begin{figure}[ht!]
   \begin{center}
