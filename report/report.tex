@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt]{report}
+\documentclass[a4paper,11pt,openany]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage[font=small,labelfont=bf, textfont=it]{caption}
@@ -224,17 +224,126 @@
   
   % TODO all \nocite{}
   
-  
-  
 % appendix
-\newpage
 \appendix
-\chapter{Web application's screenshots} \label{app:screenshots}
-% TODO
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 
 \chapter{Practical documentation} \label{app:practical_documentation}
 % TODO
+
+\section{Introduction}
+The webapp developed is a small web application delivering different features 
+in order to store and manage a list of interests. It provides authentication and 
+interests'management. It has been developed from scratch with \textit{Apache 
+WEB server 2.4} and \textit{PHP 5.6}. The database used is \textit{MySQL 5.5} with 
+\textit{InnoDB} engine.
+
+\section{Specifications}
+
+\subsection{Description}
+
+In this web application, users can register and log in from their browser. As soon as 
+they registered with a login, a password and an email, they are able to connect to 
+the application. Once connected, the user has different possibilities. He or she can 
+change their account settings like the email attached to the account. A service lets the 
+user delete his or her account. He or she can also add new interest to their list of 
+interests. An interest is composed of a name and a description which is optional. It is 
+possible to remove interests from the list (unbind) and add (bind) as many interests as 
+possible.
+
+Some services are protected from CSRF attack, some aren't. An exhaustive list of implemented 
+services is described below.
+
+\subsection{Services}
+
+Different entities are parts of the web application's model. Here is an exhaustive list of implemented 
+services, each one of them are prefixed with either ``[public]'' or ``[private]''. ``[public]'' means that 
+service is accessible from the web (with a URI) and ``[private]'' means that service is not accessible from 
+the web.
+\begin{description}
+ \item[User] this entity provides functions and methods related to user management
+ \begin{itemize}[label=--]
+  \item {[}public{]} Register a user with a login, a password and an email
+  \item {[}public{]} Login a user with a couple (login, password)
+  \item {[}private{]} Check \& hash password
+  \item {[}public{]} Change user's email: \color{red}{vulnerable to CSRF attack}\color{black}{}
+  \item {[}public{]} Disconnect the user
+  \item {[}public{]} Delete user account: \color{green}{protected against CSRF attack}\color{black}{}
+ \end{itemize}
+ 
+ \item[Interest] this entity provides functions and methods related to interest management:
+ \begin{itemize}[label=--]
+  \item {[}public{]} Add an interest: \color{green}{protected against CSRF attack}\color{black}{}
+  \item {[}public{]} Remove an interest: \color{red}{vulnerable to CSRF attack}\color{black}{}
+  \item {[}private{]} Bind an interest with a user
+  \item {[}private{]} Unbind an interest with a user
+  \item {[}public{]} Get user's interests
+  \item {[}private{]} Get all interests
+ \end{itemize}
+
+ \item[CSRF] this entity is not directly related to the web application but it contains the 
+ implementation of CSRF protection functions and attributes:
+ \begin{itemize}[label=--]
+  \item {[}private{]} Secret key
+  \item {[}private{]} Generate token
+  \item {[}private{]} Check token
+  \item {[}private{]} Sign token
+  \item {[}private{]} Generate a signed token
+  \item {[}private{]} Check a signed token
+ \end{itemize}
+
+\end{description}
+
+\subsection{Database}
+The database schema is composed of the two main entities of the web application:
+\begin{itemize}
+ \item Users
+ \item Interests
+\end{itemize}
+Each attributes, table names and relations are defined in figure~\ref{figure:database}.
+
+\begin{figure}[h!t]
+  % trim=left bottom right top
+  \includegraphics[trim=0 200 0 110,clip,width=\textwidth]{database.pdf}
+  \caption{Database diagram. Arrows represent foreign keys. Extra information: ``login'' in ``Users'' table is UNIQUE.}
+  \label{figure:database}
+\end{figure}
   
+  
+\chapter{Web application's screenshots} \label{app:screenshots}
+% TODO
+
+\begin{figure}[ht!]
+  \begin{center}
+    \fbox{\includegraphics[width=.9\linewidth]{screens/login.png}}
+    \caption{Login page}
+    \label{figure:login}
+  \end{center}
+\end{figure}
+
+\begin{figure}[ht!]
+  \begin{center}
+    \fbox{\includegraphics[width=.9\linewidth]{screens/register.png}}
+    \caption{Register page}
+    \label{figure:register}
+  \end{center}
+\end{figure}
+  
+\begin{figure}[ht!]
+  \begin{center}
+    \fbox{\includegraphics[width=.9\linewidth]{screens/interests.png}}
+    \caption{Interests page}
+    \label{figure:interests}
+  \end{center}
+\end{figure}
+  
+\begin{figure}[ht!]
+  \begin{center}
+    \fbox{\includegraphics[width=.9\linewidth]{screens/account.png}}
+    \caption{Account page}
+    \label{figure:account}
+  \end{center}
+\end{figure}
   
 % bibliography
 \bibliographystyle{plainurl}

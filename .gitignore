@@ -4,6 +4,8 @@ proposal/*
 report/*
 !report/*.tex
 !report/*.bib
+!report/screens
+!report/database.pdf
 *.swp
 *.pyc
 *.directory
