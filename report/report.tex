@@ -120,14 +120,12 @@
   % TODO     * Email filter hijacking
 
   \section{Introduction}
-  
   This report is split in two different parts. First, it deals with \csrf{} (CSRF) attack in 
   a theoretical and practical way. Academic examples and explanations describe and explore 
   different aspects and subtilities of CSRF attack. The second part of this report is about concrete 
   uses (in ``real life'') of CSRF breaches with 2 use cases about Google Gmail service.
 
   \section{Overview of CSRF}
-  
   For each kind of WEB vulnerabilities, it is important to know how to detect them and 
   how to prevent them. We will explain in more details what is CSRF attack, how to 
   identify and exploit CSRF vulnerable services and finally how to protect these services. 
@@ -147,7 +145,6 @@
   instance).
   
   \subsection{Exploitation}
-  % TODO example with webapp
   Figure~\ref{figure:csrf_scenario} displays a typical CSRF attack scenario with 3 actors: an 
   user (the victim), a vulnerable web server and an attacker web server. Each steps of the 
   scenario are described here:
@@ -243,7 +240,7 @@ $valid_request = $token === $_SESSION['token'];
   \label{figure:signed_token_client}
   \end{figure}
   
-  \begin{figure}[h!t]
+  \begin{figure}[ht!]
   \begin{minted}[linenos]{PHP}
 <?php
 const SECRET_KEY = 'a0e605ee21f0b7bdd85ff2edb8177dcf'; // 16 bytes key
@@ -273,14 +270,27 @@ public static function check_signed_token($received_token) {
   \subsubsection{Challenges}
   
   \paragraph{Double authentication}
-  % TODO retype password
+  For each critical services, it is common use to add a double authentication as a confirmation 
+  before executing the action. For instance, in GitHub~\cite{github}, when one wants to add a new 
+  SSH public key to authenticate on GitHub server, he or she has to retype his or her password to 
+  re-authenticate and prevent CSRF attack.
   
   \paragraph{CAPTCHA}
-  % TODO find a text inside a picture (similar to token)
+  Another challenge similar to double authentication consists in the confirmation of the requests 
+  through the insertion of a one-time text within an image. This technique is known as CAPTCHA
+  \footnote{CAPTCHA stands for ``Completely Automated Public Turing test to tell Computers and 
+  Humans Apart''} and is mostly used to prevent robots from scanning the web and executing spam 
+  requests.
+  
+  \subsubsection{Check referrer}
+  An other protection against CSRF attack is to check \textit{HTTP-REFERER} which is the URL of the 
+  website where the request comes from. This value comes from the client but it isn't easy nay impossible 
+  to forge from a third party website. A problem remains with this technique, lots of browser and HTTP 
+  clients alter or remove this value from the HTTP request. This is, thus, impossible to use in order 
+  to protect the website from CSRF without having features' loss due to those clients.
   
   
-  \subsubsection{Other protections}
-  
+  \subsubsection{Other protections}  
   Recommendations described above are not exhaustive. It is possible to combine them in order to increase 
   the security of the application against CSRF attack. Lots of nowadays web development frameworks provide 
   CSRF protecting tools and it is absolutely recommended to use them in production environment.
@@ -290,39 +300,6 @@ public static function check_signed_token($received_token) {
   for trusted and not trusted websites, using ``NoScript''\footnote{\url{https://noscript.net/}} extension to avoid JavaScript to be executed by 
   untrusted websites, etc. it is possible to avoid such risks.
   
-  
-%   We are aware that it will be difficult to make a demonstration during the oral presentation 
-%   because we don't have too much time for this. That's why we won't show our practical part 
-%   during the oral presentation but we may use this part as a common thread for our explanations. 
-%   
-%   Technically speaking, we will implement a small platform using either \textit{Apache 2.4}\footnote{\url{https://httpd.apache.org/}} or \textit{nginx}\footnote{\url{http://nginx.org/}} as a web 
-%   server. As a database, we can either use \textit{MySQL}\footnote{\url{http://www.mysql.com/}} or \textit{PostgreSQL}\footnote{\url{http://www.postgresql.org/}} which are relational databases. We own a small \textit{Raspberry Pi}\footnote{\url{https://www.raspberrypi.org/}} 
-%   in which we can develop this platform. It will contain several things:
-%   \begin{itemize}
-%    \item An authentication system, which is part of the attack, an attacker wants to forge request on the behalf of an user, and he or she has to be connected.
-%    \item A vulnerable service: a GET or POST service which updates data about the user (password for instance).
-%    \item Some protected services with different protection methods:
-%    \begin{itemize}
-%     \item CSRF tokens known from the server and the client ;
-%     \item Signed tokens with a private secret (only known by the server), this is a simple way to avoid saving and storing tokens but this method has several drawbacks like ``golden'' token (if the token is stolen, it can be reused on the user's behalf). This protection method will use what we've learnt from the symmetric encryption and hashing lectures of this course ;
-%     \item Confirmation pop-up ;
-%     \item Session information in URL in order to ``randomize'' the URL request as much as possible ;
-%     \item \textit{HTTP-REFERER} check but since this value comes from the client (which has been tricked), it can't be trusted.
-%    \end{itemize}
-%   \end{itemize}
-%   
-%   According to the programming language, we don't have any preferences. Python seems to be very easy to 
-%   compute with libraries like \textit{Flask}\footnote{\url{http://flask.pocoo.org/}} or 
-%   \textit{Django}\footnote{\url{https://www.djangoproject.com/}} (but we won't use Django because it 
-%   already provides tools against CSRF attack). We can also build a small website with PHP from 
-%   scratch. This language provides lots of database integration tools\footnote{PHP provides classes as \textit{PDO} (\url{http://php.net/manual/en/book.pdo.php}) 
-%   which protects from SQL injections thanks to prepared statements but this is not the point of this seminar.} 
-%   and session management.
-%   
-%   Finally, in order to build reports and presentations (beamer), we will use \LaTeX{} and we will utilize a version control system to 
-%   version and backup our code (\textit{Git}).
-  
-
   \section{Google, vulnerable to CSRF in 2007}
   % TODO put in context
   
