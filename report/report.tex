@@ -136,11 +136,45 @@
   interests (hobbies). More explanations from the technical documentation can be found 
   in appendix~\ref{app:practical_documentation}.
   
-  \subsection{Description \& Identification}
-  % TODO explain how CSRF work (reuse abstract)
+  \subsection{Description}
+  \csrf{} attack consists in creating (forging) fake HTTP(S) requests on an authenticated 
+  user's behalf. It utilizes the lack of knowledge of the victim (user) and a breach in 
+  the vulnerable website to build the request with credentials (cookies) of the victim. This 
+  request can execute actions such as email changing, posting message, deleting account, etc.
+  In order to succeed, the victim must be connected (authenticated) to the vulnerable website. 
+  An attacker will have to fool a victim currently connected to forge the fake request (with 
+  social engineering or cross-site scripting (XSS)\cite{wikipedia_xss} vulnerability for 
+  instance).
   
   \subsection{Exploitation}
   % TODO example with webapp
+  Figure~\ref{figure:csrf_scenario} displays a typical CSRF attack scenario with 3 actors: an 
+  user (the victim), a vulnerable web server and an attacker web server. Each steps of the 
+  scenario are described here:
+  \begin{enumerate}
+   \item The victim authenticates to the vulnerable web server with his or her credentials (most 
+   of the time, a login and a password).
+   \item Web server authenticates the server and set cookie on the server and client computer 
+   (browser).
+   \item The victim is browsing on the web, reading at some articles or whatever. Finally, he or 
+   she visits the attacker website. It can be made possible thanks to a malicious email or XSS 
+   vulnerability on another website.
+   \item The attacker website answers with a page containing a malicious HTML code (often with 
+   JavaScript). The browser interprets HTML and JavaScript and request different URI like ``img'' 
+   HTML tags with an HTTP GET request. It is also possible to execute POST requests with JavaScript 
+   as shown in Appendix~\ref{app:csrf_attack}.
+   \item Forged request (probably executing actions) is made with victim's credentials.
+  \end{enumerate}
+  
+\begin{figure}[h!t]
+  \begin{center}
+    \fbox{\includegraphics[width=.9\linewidth]{schemes/CSRF_attack.png}}
+    \caption{
+      CSRF attack scenario. Diagram realized with Dia (\url{https://wiki.gnome.org/Apps/Dia/}).
+    }
+    \label{figure:csrf_scenario}
+  \end{center}
+\end{figure}
   
   \subsection{How to prevent it ?}
   Websites are often vulnerable because of the lack of knowledge of developers. An attacker is able 
@@ -407,7 +441,43 @@ Each attributes, table names and relations are defined in figure~\ref{figure:dat
   \label{figure:database}
 \end{figure}
   
+\chapter{Examples of malicious HTML code} \label{app:csrf_attack}
+
+\begin{figure}[h!t]
+  \begin{minted}[linenos]{html}
+<p>Take a look at my picture:<br />
+<img src="http://vulnerable_site.com/?p=interests&action=remove&id=12" 
+    width=0 height=0 /> <!-- Invisible GET request-->
+<img src="http://real_image.png" alt="My image" />
+  \end{minted}
+  \caption{%
+  Example of CSRF attack forging a GET HTTP request. Browser will execute the following GET request:\\
+  ``GET http://vulnerable\_site.com/?p=interests\&action=remove\&id=12''\\
+  This request will be totally invisible for the victim and this will remove one of his or her interest.
+  }
+  \label{figure:get_request}
+\end{figure}
+
+\begin{figure}[h!t]
+  \begin{minted}[linenos]{html}
+<form name="hackForm" method="POST" 
+    action="http://vulnerable_site.com/?p=account&action=email">
+        <input type="hidden" name="email" value="mail@attacker.com">
+</form>
+<script type="text/javascript">
+    document.hackForm.submit(); // submit form
+</script>
+  \end{minted}
+  \caption{%
+  Example of CSRF attack forging a POST HTTP request. Execution of JavaScript is needed.
+  This request won't be invisible for the victim but still, it will forge a request to change 
+  the email of the victim in the vulnerable website. If the attacker is faster than the victim, he 
+  or she can retrieve the account with the feature ``Retrieve my password''.
+  }
+  \label{figure:post_request}
+\end{figure}
   
+
 \chapter{Web application's screenshots} \label{app:screenshots}
 
 \begin{figure}[ht!]
