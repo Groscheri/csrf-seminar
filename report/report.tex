@@ -68,32 +68,32 @@
   (\url{https://www.owasp.org/index.php/Top_10_2007} \& \url{https://www.owasp.org/index.php/Top_10_2010}).} 
   vulnerability in the top 10 of the most critical web application security risks in 2013~\cite{owasp_top_ten}.
   
-  CSRF attack consists in creating (forging) fake HTTP or HTTPS\footnote{TLS encrypts 
+  CSRF attacks consists of creating (forging) fake HTTP or HTTPS\footnote{TLS encrypts 
   information between the client (browser) and the server in order to prevent sniffing 
   in untrusted networks and man in the middle attacks but it doesn't protect from 
   legitimate requests.} requests on the user's behalf. It utilizes the lack of knowledge 
   of the victim to build the request and get information with their credentials (as if 
   the user really wanted to execute this request). In order to succeed, the victim must 
-  be connected (authenticated) to the service (website) where there is the vulnerability. 
+  be connected (authenticated) to the service (website) where the vulnerability is located. 
   Then, an attacker will have to fool the victim in order to build the fake request (with 
   social engineering for instance).
   
-  During this seminar, we wanted to get a better understanding of the security breaches 
-  involved in CSRF attack. The most interesting part consisted in the comprehension of 
-  the surface of attack, how this attack can be done and where does it come from. It 
+  During this seminar we wanted to get a better understanding of the security breaches 
+  involved in CSRF attack. Our first and most interesting part was the comprehension of 
+  the surface of an attack: how can it be done and where does it come from. It 
   was also important to understand what kind of information an attacker could steal or 
   affect on the user's behalf thanks to this attack. Furthermore, it was relevant to study 
   different ways of detecting the vulnerability and how to protect web servers from this 
   attack.
   
-  In a second part, we focused our attention on concrete applications of CSRF vulnerabilities. 
-  Lots of companies were affected in the past and we decided to deal with Google well-known 
-  stories about CSRF. Indeed, 2 different vulnerabilities were discovered in 2007 concerning 
-  Gmail \footnote{\url{https://mail.google.com/}} email service.
+  In our second part we focused our attention on concrete applications of CSRF vulnerabilities. 
+  Lots of companies were affected in the past and we decided to deal with Google's well-known 
+  stories about CSRF. Two different vulnerabilities were discovered in 2007 concerning 
+  Google's \footnote{\url{https://mail.google.com/}} email service Gmail.
   
-  Finally, we implemented a small webapp with different services, either vulnerable or protected 
-  from CSRF attack. This webapp associated with an attacker website, both developped from scratch, 
-  outline different practical examples of the attack and different ways to prevent it.
+  Finally, we implemented a small webapp with different services, either vulnerable or protected, 
+  from CSRF attack. This webapp featured an attacker website (both developed from scratch), 
+  the outline of different practical examples of the attack and different ways to prevent it.
   \end{abstract}
   
 %   \begin{enumerate}
@@ -120,46 +120,44 @@
   % TODO     * Email filter hijacking
 
   \section{Introduction}
-  This report is split in two different parts. First, it deals with \csrf{} (CSRF) attack in 
+  This report is split in two different parts. Firstly, it deals with \csrf{} (CSRF) attacks in 
   a theoretical and practical way. Academic examples and explanations describe and explore 
-  different aspects and subtilities of CSRF attack. The second part of this report is about concrete 
-  uses (in ``real life'') of CSRF breaches with 2 use cases about Google Gmail service.
+  different aspects and subtilities of CSRF attack. Secondly, this report deals with concrete 
+  scenarios (in ``real life'') of CSRF breaches with two use cases about Google Gmail service.
 
   \section{Overview of CSRF}
-  For each kind of WEB vulnerabilities, it is important to know how to detect them and 
-  how to prevent them. We will explain in more details what is CSRF attack, how to 
-  identify and exploit CSRF vulnerable services and finally how to protect these services. 
-  Every explanations will be followed with example from a web application we developed. 
-  This web application provides different services in order to manage and store a list of 
+  For each kind of WEB vulnerability, it is important to know how to detect and prevent them. 
+  We will explain in more details what a CSRF attack is, how to identify and exploit CSRF 
+  vulnerable services and finally how to protect these services. 
+  Every explanation will be followed with examples from our own developed web application. 
+  This application provides different services in order to manage and store a list of 
   interests (hobbies). More explanations from the technical documentation can be found 
   in appendix~\ref{app:practical_documentation}.
   
   \subsection{Description}
-  \csrf{} attack consists in creating (forging) fake HTTP(S) requests on an authenticated 
+  \csrf{} attacks consists of creating (forging) fake HTTP(S) requests on an authenticated 
   user's behalf. It utilizes the lack of knowledge of the victim (user) and a breach in 
   the vulnerable website to build the request with credentials (cookies) of the victim. This 
-  request can execute actions such as email changing, posting message, deleting account, etc.
+  request can execute actions such as email changing, posting message, account deletion, etc.
   In order to succeed, the victim must be connected (authenticated) to the vulnerable website. 
-  An attacker will have to fool a victim currently connected to forge the fake request (with 
-  social engineering or cross-site scripting (XSS)\cite{wikipedia_xss} vulnerability for 
-  instance).
+  An attacker will have to fool a victim that is currently connected to forge the fake request, 
+  e.g. with social engineering or cross-site scripting (XSS)\cite{wikipedia_xss} vulnerability.
   
   \subsection{Exploitation}
-  Figure~\ref{figure:csrf_scenario} displays a typical CSRF attack scenario with 3 actors: an 
-  user (the victim), a vulnerable web server and an attacker web server. Each steps of the 
+  Figure~\ref{figure:csrf_scenario} displays a typical CSRF attack scenario with 3 actors: a 
+  user (the victim), a vulnerable web server and an attacker web server. Each step of the 
   scenario are described here:
   \begin{enumerate}
    \item The victim authenticates to the vulnerable web server with his or her credentials (most 
    of the time, a login and a password).
-   \item Web server authenticates the server and set cookie on the server and client computer 
-   (browser).
-   \item The victim is browsing on the web, reading at some articles or whatever. Finally, he or 
-   she visits the attacker website. It can be made possible thanks to a malicious email or XSS 
-   vulnerability on another website.
-   \item The attacker website answers with a page containing a malicious HTML code (often with 
-   JavaScript). The browser interprets HTML and JavaScript and request different URI like ``img'' 
-   HTML tags with an HTTP GET request. It is also possible to execute POST requests with JavaScript 
-   as shown in Appendix~\ref{app:csrf_attack}.
+   \item The web server authenticates the client and sets a cookie on both the server and the client (browser).
+   \item The victim is browsing the web, reading some articles for instance. Finally, he or 
+   she visits the attacker website. It is usually done with malicious email or XSS vulnerability 
+   on another website.
+   \item The attacker website answers with a page containing malicious HTML code (often with 
+   JavaScript). The browser interprets the HTML and JavaScript code and requests different URIs like 
+   ``img'' HTML tags with an HTTP GET request. It is also possible to execute POST requests with 
+   JavaScript as shown in Appendix~\ref{app:csrf_attack}.
    \item Forged request (probably executing actions) is made with victim's credentials.
   \end{enumerate}
   
@@ -174,21 +172,21 @@
 \end{figure}
   
   \subsection{How to prevent it ?}
-  Websites are often vulnerable because of the lack of knowledge of developers. An attacker is able 
+  Websites are often vulnerable because of the lack of knowledge from developers. An attacker is able 
   to forge a request because he or she is able to find (retro-engineering) the needed parameters in 
-  order to make the victim execute an HTTP request. Small tricks like one-time tokens or one-time challenges let 
-  developers protect their website from CSRF attack. Indeed, attacker won't be able to find the needed 
-  parameters anymore.
+  order to make the victim execute an HTTP request. Small tricks like one-time tokens or one-time 
+  challenges allows developers to protect their website from CSRF attacks. The attacker won't be able 
+  to find the needed parameters anymore.
   
   \subsubsection{Tokens}
   
   \paragraph{Session token}
-  It is possible to use a session token which is a ``random'' number generated at the beginning 
-  of the user's session (authentication). The token is sent by the server in every forms (for POST 
+  It is possible to use a session token which is a ``random'' number, generated at the beginning 
+  of a user's session (authentication). The token is sent by the server in every forms (for POST 
   requests) as a hidden HTML input (as shown in figure~\ref{figure:session_token_client}) or URL 
-  (for GET requests) as a parameter. This number must be sent by the browser in every requests in 
-  order to achieve a service. In order to avoid replay attack, it is important to change this token 
-  after each use of service. Token must be stored in the user's session on the server to check its 
+  (for GET requests) as a parameter. This number must be sent by the browser in every request in 
+  order to achieve a service. In order to avoid replay attacks, it is important to change this token 
+  after each use of service. Tokens must be stored in the user's session on the server to check its 
   validity (as shown in figure~\ref{figure:session_token_server}).
   
   \begin{figure}[h!t]
@@ -215,14 +213,14 @@ $valid_request = $token === $_SESSION['token'];
   
   \paragraph{Signed token} % show code as example (using HMAC)
   It is possible to use a Hash based Message Authentication Code (HMAC) in order to ``sign'' 
-  generated token. With a private secret only known by the server, tokens are signed using 
-  HMAC and this hash is concatenated to the token before sending it to user (in a hidden 
-  HTML input as shown in figure~\ref{figure:signed_token_client}). This signed token avoid 
-  storage of tokens in session but this method has several drawbacks like ``golden'' token. 
+  generated tokens. With a private secret only known by the server, tokens are signed using 
+  HMAC and this hash is concatenated to the token before sending it to the user (in a hidden 
+  HTML input as shown in figure~\ref{figure:signed_token_client}). This signed token avoids 
+  storage of tokens in session but the method has several drawbacks like ``golden'' token. 
   Indeed, if the token is stolen (somehow), it can be reused on the user's behalf. In order 
-  to prevent this kind of event to happen, it is possible to append a timestamp (time to 
-  leave) after the token value. HMAC will protect the timestamp from modification (integrity 
-  check) so there is no need to encrypt it. Example to build and check tokens is displayed 
+  to prevent these type of events, it is possible to append a timestamp (time to leave) after 
+  the token value. HMAC will protect the timestamp from modification (integrity 
+  check) so there is no need to encrypt it. An example to build and check tokens is displayed 
   in figure~\ref{figure:signed_token_server}.
   
   \begin{figure}[h!t]
@@ -270,38 +268,51 @@ public static function check_signed_token($received_token) {
   \subsubsection{Challenges}
   
   \paragraph{Double authentication}
-  For each critical services, it is common use to add a double authentication as a confirmation 
+  For each critical service, it is common use to add a double authentication as a confirmation 
   before executing the action. For instance, in GitHub~\cite{github}, when one wants to add a new 
-  SSH public key to authenticate on GitHub server, he or she has to retype his or her password to 
+  SSH public key to authenticate on GitHub server, he or she has to retype the password to 
   re-authenticate and prevent CSRF attack.
   
   \paragraph{CAPTCHA}
-  Another challenge similar to double authentication consists in the confirmation of the requests 
+  Another challenge, similar to double authentication, consists of the confirmation of the requests 
   through the insertion of a one-time text within an image. This technique is known as CAPTCHA
   \footnote{CAPTCHA stands for ``Completely Automated Public Turing test to tell Computers and 
   Humans Apart''} and is mostly used to prevent robots from scanning the web and executing spam 
   requests.
   
   \subsubsection{Check referrer}
-  An other protection against CSRF attack is to check \textit{HTTP-REFERER} which is the URL of the 
+  Another protection against CSRF attacks is to check \textit{HTTP-REFERER} which is the URL of the 
   website where the request comes from. This value comes from the client but it isn't easy nay impossible 
-  to forge from a third party website. A problem remains with this technique, lots of browser and HTTP 
-  clients alter or remove this value from the HTTP request. This is, thus, impossible to use in order 
-  to protect the website from CSRF without having features' loss due to those clients.
-  
-  
+  to forge from a third party website. A problem remains with this technique: lots of browsers and HTTP 
+  clients alter or remove this value within the HTTP request. Thus, this is impossible to use in order 
+  to protect the website from CSRF without having features removed due to those clients.
+   
   \subsubsection{Other protections}  
   Recommendations described above are not exhaustive. It is possible to combine them in order to increase 
-  the security of the application against CSRF attack. Lots of nowadays web development frameworks provide 
+  the security of the application against CSRF attacks. Nowadays lots of web development frameworks provide 
   CSRF protecting tools and it is absolutely recommended to use them in production environment.
   
   Furthermore, it is important to tell users they have an important role to play to prevent these attacks. 
-  With common gestures (actions) like disconnecting of websites after using them, having different browsers 
-  for trusted and not trusted websites, using ``NoScript''\footnote{\url{https://noscript.net/}} extension to avoid JavaScript to be executed by 
-  untrusted websites, etc. it is possible to avoid such risks.
+  With common gestures (actions) like logging out of websites when done with them, having different browsers 
+  for trusted and not trusted websites, using ``NoScript''\footnote{\url{https://noscript.net/}} extension to 
+  avoid JavaScript to be executed by untrusted websites, etc. it is possible to avoid such risks.
   
   \section{Google, vulnerable to CSRF in 2007}
-  % TODO put in context
+  One of today's most renowned company in the world[1] was seriously harmed in 2007. During one single year, 
+  Google was subject to not one, but two CSRF attacks. The attackers had no problems abusing security 
+  vulnerabilities in Google's newly released email service: Gmail. Although Gmail has been around in a beta 
+  environment since 2004, it wasn't until 2007 it was released to the public. It was a year when CSRF went from 
+  being an unknown threat with scarce prevention across the web to something that would appear on the wallpaper 
+  several years later.
+  
+  CSRF attacks are always serious but the two attacks differentiated in that one could only gather information 
+  while the other one could hijack the email. The latter was a much more serious threat as it could ultimately end 
+  with losing one's account. Since then, these particular events are often used in educational contexts to help 
+  demonstrating CSRF. 
+
+References: (just letting them be here for the moment)
+[1] Forbes - The world's most valuable brands. http://www.forbes.com/powerful-brands/. Accessed: 2015-11-24.
+[1 alt.] Infegy - Top 50 most popular brands. http://top50.infegy.com/. Accessed: 2015-11-24.
   
   \subsection{Contact list spoofing}
   % TODO
@@ -340,9 +351,9 @@ public static function check_signed_token($received_token) {
 \chapter{Practical documentation} \label{app:practical_documentation}
 
 \section{Introduction}
-The webapp developed is a small web application delivering different features 
+The developed webapp is a small web application delivering different features 
 in order to store and manage a list of interests. It provides authentication and 
-interests'management. It has been developed from scratch with \textit{Apache 
+interests-management. It has been developed from scratch with \textit{Apache 
 WEB server 2.4}\footnote{\url{https://httpd.apache.org/}} and \textit{PHP 5.6}. 
 The database used is \textit{MySQL 5.5}\footnote{\url{http://www.mysql.com/}} with 
 \textit{InnoDB} engine.
@@ -352,15 +363,15 @@ The database used is \textit{MySQL 5.5}\footnote{\url{http://www.mysql.com/}} wi
 \subsection{Description}
 
 In this web application, users can register and log in from their browser. As soon as 
-they registered with a login, a password and an email, they are able to connect to 
+they registered with an account, password and email, they are able to connect to 
 the application. Once connected, the user has different possibilities. He or she can 
-change their account settings like the email attached to the account. A service lets the 
+change their account settings, like the email attached to their account. A service lets the 
 user delete his or her account. He or she can also add new interest to their list of 
 interests. An interest is composed of a name and a description which is optional. It is 
 possible to remove interests from the list (unbind) and add (bind) as many interests as 
 possible.
 
-Some services are protected from CSRF attack, some aren't. An exhaustive list of implemented 
+Some services are protected from CSRF attack and some aren't. An exhaustive list of implemented 
 services is described below.
 
 \subsection{Services}
