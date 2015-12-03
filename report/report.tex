@@ -62,15 +62,15 @@
 
 % abstract
 \begin{abstract}
-  \csrf{} (CSRF) -- often spelled ``sea surf'' -- is a well-known web attack which has 
-  been discovered in 2001. The \textit{Open Web Application Security Project} (OWASP \cite{owasp}) 
+  \csrf{} (CSRF) -- often spelled ``sea surf'' -- is a well-known web attack which was 
+  discovered in 2001. The \textit{Open Web Application Security Project} (OWASP \cite{owasp}) 
   ranked CSRF as the 8th\footnote{In 2007 \& 2010 OWASP's tops ten, CSRF was at the 5th position 
   (\url{https://www.owasp.org/index.php/Top_10_2007} \& \url{https://www.owasp.org/index.php/Top_10_2010}).} 
   vulnerability in the top 10 of the most critical web application security risks in 2013~\cite{owasp_top_ten}.
   
   CSRF attacks consists of creating (forging) fake HTTP or HTTPS\footnote{TLS encrypts 
   information between the client (browser) and the server in order to prevent sniffing 
-  in untrusted networks and man in the middle attacks but it doesn't protect from 
+  in untrusted networks and man in the middle attacks but it does not protect from 
   legitimate requests.} requests on the user's behalf. It utilizes the lack of knowledge 
   of the victim to build the request and get information with their credentials (as if 
   the user really wanted to execute this request). In order to succeed, the victim must 
@@ -175,7 +175,7 @@
   Websites are often vulnerable because of the lack of knowledge from developers. An attacker is able 
   to forge a request because he or she is able to find (retro-engineering) the needed parameters in 
   order to make the victim execute an HTTP request. Small tricks like one-time tokens or one-time 
-  challenges allows developers to protect their website from CSRF attacks. The attacker won't be able 
+  challenges allows developers to protect their website from CSRF attacks. The attacker will not be able 
   to find the needed parameters anymore.
   
   \subsubsection{Tokens}
@@ -282,7 +282,7 @@ public static function check_signed_token($received_token) {
   
   \subsubsection{Check referrer}
   Another protection against CSRF attacks is to check \textit{HTTP-REFERER} which is the URL of the 
-  website where the request comes from. This value comes from the client but it isn't easy nay impossible 
+  website where the request comes from. This value comes from the client but it is not easy nay impossible 
   to forge from a third party website. A problem remains with this technique: lots of browsers and HTTP 
   clients alter or remove this value within the HTTP request. Thus, this is impossible to use in order 
   to protect the website from CSRF without having features removed due to those clients.
@@ -301,7 +301,7 @@ public static function check_signed_token($received_token) {
   One of today's most renowned company in the world~\cite{forbes} was seriously harmed in 2007. During one single year, 
   Google was subject to not one, but two CSRF attacks. The attackers had no problems abusing security 
   vulnerabilities in Google's newly released email service: Gmail. Although Gmail has been around in a beta 
-  environment since 2004, it wasn't until 2007 it was released to the public. It was a year when CSRF went from 
+  environment since 2004, it was not until 2007 it was released to the public. It was a year when CSRF went from 
   being an unknown threat with scarce prevention across the web to something that would appear on the wallpaper 
   several years later.
   
@@ -316,7 +316,7 @@ public static function check_signed_token($received_token) {
   attack involved theft of users' contact lists and it was hot news on the Internet as well as in papers. The 
   aim of this attack was to gather email addresses that could be targeted by spam and phishing services.
   Successfully stolen contact lists could not be detected by the users as the attackers did not actually steal
-  anything. The result was clueless users that didn't know if they were affected until their colleagues and 
+  anything. The result was clueless users that did not know if they were affected until their colleagues and 
   friends started reporting about weird emails and spam issues.
   
   One have to realize that email spoofing exists even today. Large email services like Gmail and Outlook have
@@ -341,7 +341,7 @@ public static function check_signed_token($received_token) {
   
   What made this possible was the server's verification scheme: it was only verifying that the caller was logged in 
   to a Google account. The ever active cookie declared it without hesitation which led to a successful attack.
-  To make it even worse, the server didn't check if the call came from the same webpage~\cite{gmail_contact_list_csrf}. A simple popup window could 
+  To make it even worse, the server did not check if the call came from the same webpage~\cite{gmail_contact_list_csrf}. A simple popup window could 
   have triggered this attack.
   
   % Alternative ref: 
@@ -408,16 +408,15 @@ public static function check_signed_token($received_token) {
   \label{figure:callback}
   \end{figure}
   
-  The code in Figure~\ref{figure:callback} does a very basic operation. The attacker could as well send the data to another program 
-  that would for instance spam all contacts in the list or creating network connections for better relevance in 
-  phishing attempts.
+  The code in Figure~\ref{figure:callback} does a very basic operation. The attacker could as well send the data to 
+  another program that would for instance spam all contacts in the list or creating network connections for better 
+  relevance in phishing attempts.
   
   \subsubsection{Impact}
   Starting a new service with problems is not a winning concept. Potential future users were thinking if Gmail 
   really was the best choice, especially when Microsoft initiated Outlook 2007 set up for Hotmail accounts. 
-  But the final result was that it didn't have such a huge impact as Google managed to fix the problem relatively
+  But the final result was that it did not have such a huge impact as Google managed to fix the problem relatively
   quickly.
-  
   
   \subsection{Email filter hijacking}
   Later in 2007 a second CSRF attack was launched on Gmail. This attack was very serious as it compromised 
@@ -429,7 +428,7 @@ public static function check_signed_token($received_token) {
   data, confidential reports, etc. Having control over a trusted email would give the attacker new possibilities 
   by attacking others in the contact list.
   
-  Google, with it's top modern development team, didn't waste any time and patched up Gmail swiftly. See the
+  Google, with its top modern development team, did not waste any time and patched up Gmail swiftly. See the
   sub section: Impact for further information on this subject.
   
   \subsubsection{Exploitation}
@@ -464,8 +463,8 @@ public static function check_signed_token($received_token) {
   \end{figure}
   
   \subsubsection{Impact}
-  One would it would be a hard backlash for Gmail when the reports came about the CSRF attacks. Users lost 
-  accounts and information even after Google fixed the vulnerability. As the source of the attack, the filter, 
+  One would think it would be a hard backlash for Gmail when the reports came about the CSRF attacks. Users lost 
+  accounts and information even after Google fixed the vulnerability - as the source of the attack, the filter, 
   had to be removed by the users themselves. But the declining popularity never occurred. The key, to the gigantic
   success users world wide are using today, is the fact it happened in an early stage. During the attacks in 
   September, approximately 80 thousand were using Gmail~\cite{techcrunch}. Compare it to 2015 where 900 million users exists~\cite{dmr}.
@@ -473,21 +472,26 @@ public static function check_signed_token($received_token) {
   would happen today, who knows how many users would leave Gmail for another email service.
 
   \subsection{Comparison}
-  % TODO
+  Both were \csrf{} attacks that were ahead of their time. Key components in them are malicious scripts that runs in the 
+  shadow. The first attack had a larger emphasize on the actual script while the second attack used a special type of 
+  form. Result: as long as the victim did not realize what had happened they remained equally effective.
   
-  
+  As it have been told earlier, the first attack was less serious than the second attack. Gathering contacts and 
+  hijacking an entire account are two different things. But they were still serious threats nonetheless as they
+  jeopardized a newly launched service that have been developed for several years. 
   
   \section{Conclusion}
   \csrf{} is nowadays well-known by developers and web security researchers. Lots of interesting papers have been written 
-  on the subject and this seminar didn't intend to rewrite what was already done. The aim was to deal with a real subject 
+  on the subject and this seminar did not intend to rewrite what was already done. The aim was to deal with a real subject 
   (with real impact on companies) with practical implementations in order to get a better understanding about one of the 
   most important web vulnerability.
   
-  Impacts of web security breaches are more and more important. Attackers don't want to destroy servers or deface 
-  websites anymore. They are trying to invisibly take control of servers in order to gather information. ``Data is gold'' and 
-  attackers do their best in order to get access to it, the reasons are plethora: money, intelligence, challenge, etc. Prevent 
-  systems from these attacks is one of the most important security matter since the beginning of Internet but even more with 
-  the emergence of Internet of Things (IoT), Bring Your Own Device (BYOD) concept and growing exposure of IT systems.
+  Impacts of web security breaches are more and more important. Attackers do not want to destroy servers or deface 
+  websites anymore. They are trying to invisibly take control of servers in order to gather information. ``Data is gold'' 
+  and attackers do their best in order to get access to it. The reasons are many: money, intelligence, challenge, etc. 
+  Preventing systems from these attacks is one of the most important security matter since the beginning of Internet but 
+  even more with the emergence of Internet of Things (IoT), Bring Your Own Device (BYOD) concept and growing exposure of 
+  IT systems.
   
 % appendix
 \appendix
@@ -516,15 +520,14 @@ interests. An interest is composed of a name and a description which is optional
 possible to remove interests from the list (unbind) and add (bind) as many interests as 
 possible.
 
-Some services are protected from CSRF attack and some aren't. An exhaustive list of implemented 
+Some services are protected from CSRF attack and some are not. An exhaustive list of implemented 
 services is described below.
 
 \subsection{Services}
 
 Different entities are parts of the web application's model. Here is an exhaustive list of implemented 
 services, each one of them are prefixed with either ``[public]'' or ``[private]''. ``[public]'' means that 
-service is accessible from the web (with a URI) and ``[private]'' means that service is not accessible from 
-the web.
+service is accessible from the web (with a URI) and ``[private]'' is naturally the opposite of ``[public]''.
 \begin{description}
  \item[User] this entity provides functions and methods related to user management
  \begin{itemize}[label=--]
@@ -602,8 +605,8 @@ Each attributes, table names and relations are defined in figure~\ref{figure:dat
 </script>
   \end{minted}
   \caption{%
-  Example of CSRF attack forging a POST HTTP request. Execution of JavaScript is needed.
-  This request won't be invisible for the victim but still, it will forge a request to change 
+  Example of a CSRF attack forging a POST HTTP request. Execution of JavaScript is needed.
+  This request will not be invisible for the victim but it will still forge a request to change 
   the email of the victim in the vulnerable website. If the attacker is faster than the victim, he 
   or she can retrieve the account with the feature ``Retrieve my password''.
   }
