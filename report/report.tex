@@ -280,7 +280,7 @@ public static function check_signed_token($received_token) {
   Humans Apart''} and is mostly used to prevent robots from scanning the web and executing spam 
   requests.
   
-  \subsubsection{Check referrer}
+  \subsubsection{Check referer}
   Another protection against CSRF attacks is to check \textit{HTTP-REFERER} which is the URL of the 
   website where the request comes from. This value comes from the client but it is not easy nay impossible 
   to forge from a third party website. A problem remains with this technique: lots of browsers and HTTP 
