@@ -2,7 +2,7 @@ proposal/*
 !proposal/*.bib
 !proposal/*.tex
 report/*
-!report/*.tex
+!report/report.tex
 !report/*.bib
 !report/screens
 !report/database.pdf
