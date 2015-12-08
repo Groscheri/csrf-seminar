@@ -80,11 +80,15 @@ placed so that the reader have them at hand when reading related text?
 
 ===
 
-The template used is a LaTeX article documentclass template which is suitable 
+The template used is a LaTeX "article" documentclass template which is suitable 
 for this kind of report. It is scientific since lots of report use LaTeX as a 
 tool for writing thesis or whatever. Thus, fonts and layout are easy to read.
 
-A web link is going outside the right margin in section 3.
+A web link is going outside the right margin in section 3 and all references 
+and clickable links are surrounded by colored rectangle. This is because of 
+LaTeX, you may probably add the "hidelinks" option when loading hyperref 
+package.
+Code: \usepackage[bookmarks, hidelinks]{hyperref} % clickable links
 
 ===
 
