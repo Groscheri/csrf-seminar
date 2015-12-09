@@ -53,7 +53,7 @@ other words here. There is nothing wrong with "Literature Study", but I, as a
 reader, consider this whole report as a literature study. Which makes the
 discussed header obsolete - replace it with something better.
 
-The lack of a conclussion bothers me enormously, as that is the final piece
+The lack of a conclusion bothers me enormously, as that is the final piece
 that gives us an insight in what the authors thinks about this particular
 subject.  
 
@@ -81,8 +81,8 @@ placed so that the reader have them at hand when reading related text?
 ===
 
 The template is custom made in some normal text-editor. A more suitable template
-would be a standard document done in LaTeX. It is advisible to use LaTeX as it
-it one of the most accepted way of writing scientific reports.
+would be a standard document done in LaTeX. It is advisable to use LaTeX as it
+is one of the most accepted way of writing scientific reports.
 
 If the authors choose to continue with this custom made template, please change
 the font of the headers as they are too thin in comparison to the paragraph type
@@ -133,7 +133,7 @@ report?
 
 ===
 
-The abstract and introduction is very hastly done. It is hard to get a grip
+The abstract and introduction is very hastily done. It is hard to get a grip
 about the report at first. Might have to flesh it out a bit and make it easier
 to grasp.
 
@@ -200,8 +200,8 @@ combined as it is hard to describe or prove from only one perspective.
 As there is no practical influence, the literature part has to be stable.
 The last part of the report, Influence and Prospect, shortly describes some
 improvements but doesn't really dwell in that are for that long. Everything
-that can be explained more detail (keep the aim and scope in mind) should be
-described more intensly.
+that can be explained in more details (keep the aim and scope in mind) should be
+described more intensively.
 
 Remember that a document with 100% text won't make the reader happy. Add 
 some explanatory pictures or more code to give the report more volume.
