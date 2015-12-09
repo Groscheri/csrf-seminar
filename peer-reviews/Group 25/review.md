@@ -221,3 +221,16 @@ more concrete overview of the research and it will clearly give credits to the
 proof of concept you built.
 
 ===
+
+Overall feedback
+
+===
+
+This report is well-written and content is affordable for readers without so 
+much knowledge in the presented field. The overall document is constructed in a 
+way that we can understand the full purpose and aim of the project. Notions are 
+well-defined too.
+
+What should be interesting to add in the report are illustrations (figures, 
+schemes) and documentation of the technical part. This will also help the 
+readers to understand the outlined content.

@@ -210,3 +210,22 @@ Lastly, using LaTeX would improve this report instantly by 300% as this
 custom made template is far to off from normal scientific reports.
 
 ===
+
+Overall feedback
+
+===
+
+This report is based on a custom made template that doesn't follow scientific 
+report standards. Using a tool like LaTeX can easily eradicate this problem, 
+including abnormal type settings for headers and some code parts. Some 
+references have to be checked, some have to be added/removed to the text. Using 
+references for big assumptions is crucial for the validity of the report. 
+Illustrations and some more code would probably give this report some volume 
+and a greater readability. Lastly the explanation of commonly used terms such 
+as Heartbleed and SSL should be available for the reader at the beginning of 
+the report.
+
+With these small changes, a well constructed report can emerge from this 
+current document. A lot of small things makes the report worse than it is. 
+Correct at least some of these points above and you'll have a well constructed 
+report at the end of the day.
