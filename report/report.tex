@@ -284,7 +284,7 @@ $valid_request = $token === $_SESSION['token'];
   CSRF attacks are always serious but the two attacks differentiated in that one could only gather information 
   while the other one could hijack the email. The latter was a much more serious threat as it could ultimately end 
   with losing one's account. Since then, these particular events are often used in educational contexts to help 
-  demonstrating CSRF. 
+  demonstrating CSRF\cite{owasp_csrf_presentation}. 
 
   
   \subsection{Contact list spoofing}
@@ -293,7 +293,7 @@ $valid_request = $token === $_SESSION['token'];
   aim of this attack was to gather email addresses that could be targeted by spam and phishing services.
   Successfully stolen contact lists could not be detected by the users as the attackers did not actually steal
   anything. The result was clueless users that did not know if they were affected until their colleagues and 
-  friends started reporting about weird emails and spam issues.
+  friends started reporting about weird emails and spam issues\cite{gmail_hijack_csrf2}.
   
   One have to realize that email spoofing exists even today. Large email services like Gmail and Outlook have
   complex algorithms to tackle this problem to a certain extent. These algorithms were far as advanced in 2007 as 
@@ -313,21 +313,14 @@ $valid_request = $token === $_SESSION['token'];
    \item The victim is browsing the web, accessing the attacker website. 
    \item The attacker website answers with a page containing malicious HTML code with JavaScript.
    \item Forged request is made, calling the google function found in Figure~\ref{figure:callback_js}.
-   \item (Extra) Attacker receives object with email contacts. %% Maybe not useful
+   \item (Final stroke) Attacker receives object with email contacts. %% Maybe not useful
   \end{enumerate}
   
   What made this possible was the server's verification scheme: it was only verifying that the caller was logged in 
   to a Google account. The ever active cookie declared it without hesitation which led to a successful attack.
-  To make it even worse, the server did not check if the call came from the same webpage~\cite{gmail_contact_list_csrf}. A simple popup window could 
-  have triggered this attack.
+  To make it even worse, the server did not check if the call came from the same webpage~\cite{gmail_contact_list_csrf}. 
+  A simple popup window could have triggered this attack.
   
-  % Alternative ref: 
-  % [4] http://ajaxian.com/archives/gmail-csrf-security-flaw ==> not cited in the text
-  % Accessed: 2015-11-24
-  % TODO add \cite{}s in the text and remove \nocite{}s below
-  \nocite{gmail_contact_list_csrf2}
-  
-  % It's neither of these sites code, it is Google's code. But we might have to quote it anyway.
 \begin{figure}[h!t]
   \begin{multicols}{2}
   \begin{minted}[linenos]{js}
@@ -382,7 +375,7 @@ google ({
         src="http://docs.google.com/data/contacts?out=js&show=ALL&psort=Affinity
              &callback=google&max=99999"></script>
   \end{minted}
-  \caption{A simple JavaScript that calls the function in Figure~\ref{figure:callback_js} and writes the received data to a file.}
+  \caption{A simple JavaScript that calls the function in Figure~\ref{figure:callback_js} and writes the received data to a file\cite{gmail_contact_list_csrf2}.}
   \label{figure:callback}
   \end{figure}
   
@@ -394,7 +387,7 @@ google ({
   Starting a new service with problems is not a winning concept. Potential future users were thinking if Gmail 
   really was the best choice, especially when Microsoft initiated Outlook 2007 set up for Hotmail accounts. 
   But the final result was that it did not have such a huge impact as Google managed to fix the problem relatively
-  quickly.
+  quickly~\cite{techcrunch}.
   
   \subsection{Email filter hijacking}
   Later in 2007 a second CSRF attack was launched on Gmail. This attack was very serious as it compromised 
@@ -413,16 +406,17 @@ google ({
   This attack used the same basic CSRF techniques. The difference is the code that is used to inject the filter.
   It is a so called multipart/form-data POST where all the form's fields are being hidden. So instead of using
   a picture as a disguise, a hidden form is used as shown in Appendix Figure~\ref{figure:form}. JavaScript was 
-  used to execute the form: \texttt{document.forms[0].submit();}. The injection could be done on almost any of Gmail's interfaces where a user was logged in.
+  used to execute the form: \texttt{document.forms[0].submit();}. The injection could be done on almost any of 
+  Gmail's interfaces where a user was logged in.
   
   \subsubsection{Impact}
   One would think it would be a hard backlash for Gmail when the reports came about the CSRF attacks. Users lost 
   accounts and information even after Google fixed the vulnerability - as the source of the attack, the filter, 
   had to be removed by the users themselves. But the declining popularity never occurred. The key, to the gigantic
   success users world wide are using today, is the fact it happened in an early stage. During the attacks in 
-  September, approximately 80 thousand were using Gmail~\cite{techcrunch}. Compare it to 2015 where 900 million users exists~\cite{dmr}.
-  The attack was severe, but it was done during a time Gmail had just started their engines. If the same attack
-  would happen today, who knows how many users would leave Gmail for another email service.
+  September, approximately 80 thousand were using Gmail~\cite{techcrunch}. Compare it to 2015 where 900 million 
+  users exists~\cite{dmr}. The attack was severe, but it was done during a time Gmail had just started their engines. 
+  If the same attack would happen today, who knows how many users would leave Gmail for another email service.
 
   \subsection{Comparison}
   Both were \csrf{} attacks that were ahead of their time. Key components in them are malicious scripts that runs in the 
@@ -431,13 +425,13 @@ google ({
   
   As it have been told earlier, the first attack was less serious than the second attack. Gathering contacts and 
   hijacking an entire account are two different things. But they were still serious threats nonetheless as they
-  jeopardized a newly launched service that have been developed for several years. 
+  jeopardized a newly launched service that had been developed for several years. 
   
   \section{Conclusion}
   \csrf{} is nowadays well-known by developers and web security researchers. Lots of interesting papers have been written 
   on the subject and this seminar did not intend to rewrite what was already done. The aim was to deal with a real subject 
   (with real impact on companies) with practical implementations in order to get a better understanding about one of the 
-  most important web vulnerability.
+  most important web vulnerabilities.
   
   Impacts of web security breaches are more and more important. Attackers do not want to destroy servers or deface 
   websites anymore. They are trying to invisibly take control of servers in order to gather information. ``Data is gold'' 
