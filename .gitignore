@@ -6,6 +6,10 @@ report/*
 !report/*.bib
 !report/screens
 !report/database.pdf
+presentation/*
+!presentation/*.tex
+!presentation/media
+peer-reviews/review_1.html
 *.swp
 *.pyc
 *.directory

@@ -1,0 +1,138 @@
+\documentclass{beamer}
+\mode<presentation>{\usetheme{Ilmenau}} % Ilmenau
+% \mode<presentation>{\usetheme{Warsaw}} % Warsaw
+% \mode<presentation>{\usetheme{Darmstadt}} % Darmstadt
+% behaviors
+
+% toc before each section
+% \AtBeginSection[]
+% {
+% \begin{frame}{Table of Contents}
+% \tableofcontents[currentsection]
+% \end{frame}
+% }
+
+% \AtBeginSection{\frame{\sectionpage}}
+% \AtBeginSubsection{\frame{\subsectionpage}}
+% \AtBeginSubsubsection{\frame{\subsubsectionpage}}
+
+% add number of page
+\beamertemplatenavigationsymbolsempty
+\setbeamerfont{page number in head/foot}{}
+\setbeamertemplate{footline}[frame number]
+
+% add number of page
+% \addtobeamertemplate{navigation symbols}{}{%
+%     \usebeamerfont{footline}%
+%     \usebeamercolor[fg]{footline}%
+%     \hspace{1em}%
+%     \insertframenumber/\inserttotalframenumber
+% }
+
+% remove symbols
+\setbeamertemplate{navigation symbols}{}
+
+% headers
+\title{CSRF attack: even Google was vulnerable.}
+\author{Quentin Lemaire \& David Kufa}
+\date{\today}
+
+% content
+\begin{document}
+  
+\maketitle % build title
+
+% introduction
+\section*{Introduction}
+\begin{frame}
+\frametitle{Introduction}
+\begin{itemize}
+ \item CSRF aka ``sea surf''
+ \item ...
+ % TODO
+\end{itemize}
+
+\end{frame}
+
+% toc
+\begin{frame}
+  \frametitle{Summary}
+  \tableofcontents
+\end{frame}
+
+%% ------- %%
+
+\section{CSRF}
+\begin{frame}
+  \frametitle{CSRF}
+  \tableofcontents[currentsection]
+\end{frame}
+
+% description
+\begin{frame}
+  \frametitle{What is CSRF ?}
+  % TODO text description
+\end{frame}
+
+\begin{frame}
+  \frametitle{Scenario}
+  % TODO scheme explained
+\end{frame}
+
+
+% exploitation & prevention
+\begin{frame}
+  \frametitle{Exploitation \& prevention} % say we built the webapp from scratch
+  % TODO insert video(s)
+\end{frame}
+
+
+%% ------- %%
+
+
+\section{Google was vulnerable}
+\begin{frame}
+  \frametitle{Google was vulnerable}
+  \tableofcontents[currentsection]
+\end{frame}
+
+\subsection{Story 1}
+
+\begin{frame}
+  \frametitle{Description}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exploitation}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Impact}
+\end{frame}
+
+
+\subsection{Story 2}
+
+\begin{frame}
+  \frametitle{Description}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exploitation}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Impact}
+\end{frame}
+
+\section*{Conclusion}
+
+\begin{frame}
+  \frametitle{Conclusion}
+  \begin{center}
+    Thank you very much!
+  \end{center}
+\end{frame}
+
+
+\end{document}
