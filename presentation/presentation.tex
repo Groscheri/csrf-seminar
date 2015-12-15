@@ -85,7 +85,7 @@
 \subsection{What is it ?}
 \begin{frame}
   \frametitle{What is CSRF ?}
-  % TODO text description
+  
   \begin{itemize}
    \item Web vulnerability discovered in 2001
    \item Top 8 from OWASP\footnote{\textit{Open Web Application 
@@ -100,8 +100,9 @@
     Forging fake HTTP(S) requests in order to execute legitimate actions on the user's behalf.
   \end{block}
 
-  
-%C. Shiflett said (compared to XSS) : "Cross-Site Request Forgeries are an almost opposite style of attack. Rather than exploiting the trust that a user has for a website, they (CSRF attacks) exploit the trust that a website has for a user"
+% C. Shiflett said (compared to XSS) : "Cross-Site Request Forgeries are an almost 
+% opposite style of attack. Rather than exploiting the trust that a user has for a 
+% website, they (CSRF attacks) exploit the trust that a website has for a user"
 
 
 % alertblock
@@ -111,24 +112,59 @@
 %   \end{block}
 \end{frame}
 
+% Scheme:
+% 1- Real authentication from the client to the vulnerable web server
+% 2- Server authenticates the user and sets up cookie
+% 3- Victim surfs on the internet & visits the attacker website (via 
+% social engineering, Cross-Site Scripting (XSS) web vulnerability, ...)
+% 4- Attacker webserver answers with malicious page embeding malicious 
+% code (HTML, JavaScript, etc.)
+% 5- Code is executed (interpreted) by the browser's victim and a request 
+% can be sent on the user's behalf (with his or her credentials)
+
 \subsection{How it works ?}
 \begin{frame}
   \frametitle{Concrete scenario}
   \begin{figure}[h!t]
   \begin{center}
-    \fbox{\includegraphics[width=\textwidth]{media/CSRF_attack.png}}
+    \only<1>{\fbox{\includegraphics[width=\textwidth]{media/CSRF_attack_0.png}}} % actors
+    \only<2>{\fbox{\includegraphics[width=\textwidth]{media/CSRF_attack_1.png}}} % 1
+    \only<3>{\fbox{\includegraphics[width=\textwidth]{media/CSRF_attack_2.png}}} % 2
+    \only<4>{\fbox{\includegraphics[width=\textwidth]{media/CSRF_attack_3.png}}} % 3
+    \only<5>{\fbox{\includegraphics[width=\textwidth]{media/CSRF_attack_4.png}}} % 4
+    \only<6>{\fbox{\includegraphics[width=\textwidth]{media/CSRF_attack_5.png}}} % 5
+    \only<7>{\fbox{\includegraphics[width=0.9\textwidth]{media/CSRF_attack_5.png}}} % 5 small
+       
     \caption{
-      CSRF attack scenario. Diagram realized with Dia (\url{https://wiki.gnome.org/Apps/Dia/}).
+      CSRF attack scenario.
+      \tiny{\textit{Realized with Dia: \url{https://wiki.gnome.org/Apps/Dia/}.}}
     }
   \end{center}
   \end{figure}
+  
+  \only<7>{
+   Example of malicious code:
+  \texttt{<img src="http://vulnerable-website.com/?\textcolor{red}{action=deleteAccount}" width=0 height=0 />}
+  }
 \end{frame}
+
+\begin{frame}
+ \frametitle{Practical example}
+ 
+ \begin{center}
+    % TODO insert video vulnerable
+    \tiny{\textit{This web application has been developed by Quentin Lemaire \& David Kufa. Source is accessible on Github: \url{https://github.com/Groscheri/csrf-seminar/tree/master/webapp}}}
+ \end{center}
+\end{frame}
+
 
 \subsection{How to prevent it ?}
 % exploitation & prevention
 \begin{frame}
-  \frametitle{Exploitation \& prevention} % say we built the webapp from scratch
-  % TODO insert video(s)
+  \frametitle{Prevention} % webapp built from scratch
+  % TODO text instead of video
+  % TODO insert video none vulnerable ==> maybe not necessary since we don't have too much time
+  % TODO if video => \tiny{\textit{This web application has been developed by Quentin Lemaire \& David Kufa. Source is accessible on Github: \url{https://github.com/Groscheri/csrf-seminar/tree/master/webapp}}}
 \end{frame}
 
 
@@ -141,7 +177,7 @@
   \tableofcontents[currentsection]
 \end{frame}
 
-\subsection{Story 1}
+\subsection{Story 1} % TODO maybe change plan ?
 
 \begin{frame}
   \frametitle{Description}
@@ -156,7 +192,7 @@
 \end{frame}
 
 
-\subsection{Story 2}
+\subsection{Story 2} % TODO maybe change plan ?
 
 \begin{frame}
   \frametitle{Description}
@@ -186,7 +222,7 @@
    \begin{itemize}
     \item Methods presented previously: tokens, referer, CAPTCHA, etc.
     \pause
-    \item \textcolor{ForestGreen}{Use robust \textbf{frameworks}!}
+    \item \textcolor{ForestGreen}{Use robust \textbf{frameworks}!} % well-known & tested (often developed by companies or open-source community)
    \end{itemize}
 
   \end{itemize}
