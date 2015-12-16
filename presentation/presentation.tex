@@ -191,34 +191,90 @@
   \frametitle{Google was vulnerable}
   \tableofcontents[currentsection]
 \end{frame}
-
-\subsection{Story 1} % TODO maybe change plan ?
-
+	
 \begin{frame}
   \frametitle{Description}
+  
+  \begin{figure}
+    \includegraphics[width=.6\textwidth]{media/gmail_logo.png}
+  \end{figure}	  
+  
+  \begin{itemize}
+    \item Google's email service Gmail launched in 2007
+    \pause
+    \item First CSRF attack commenced on Gmail (January 2007)
+    \pause
+    \item \textbf{All your contacts are belong to us!}
+    \item Contact list spoofing
+    \begin{itemize}
+      \item Phishing attempts and spam
+    \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Exploitation}
+  \begin{itemize}
+    \item JavaScript callback function returned all contacts
+    \item Triggered when showing all available Gmail contacts
+    \pause
+    \item "Keep me logged in" - Cookie duration set to infinite
+    \pause
+    \item Even simple popups could be dangerous!
+  \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Impact}
-\end{frame}
-
-
-\subsection{Story 2} % TODO maybe change plan ?
+\subsection{Story 2}
 
 \begin{frame}
   \frametitle{Description}
+  
+  \begin{figure}
+    \includegraphics[width=.6\textwidth]{media/gmail_logo_0.jpg}
+  \end{figure}	  
+  
+  \begin{itemize}
+    \item Back to the future - second CSRF attack (August 2007)
+    \pause
+    \item \textbf{All your accounts are belong to us!}
+    \item Email filter hijacking
+    \begin{itemize}
+      \item Reading all emails and taking over accounts
+    \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Exploitation}
+  \begin{itemize}
+    \item Special form (multipart/form-data POST) used
+    \item Injected with JavaScript by sending in the form
+    \pause
+    \item Setting new filter which redirects emails to new address
+    \item Filter redirected both old and new emails to attacker
+    \pause
+    \item \textbf{Worked on almost every Gmail interface - harder for end-users to protect themselves}
+  \end{itemize}
 \end{frame}
+
+\subsection{Conclusion of stories}
 
 \begin{frame}
   \frametitle{Impact}
+  \begin{itemize}
+    \item Two serious security breaches
+    \item Gmail newly released with 80.000 users
+    \pause
+    \item Result:
+    \begin{itemize}
+      \item neglectable impact
+    \end{itemize}
+    \pause
+    \item Thought:
+    \begin{itemize}
+      \item How would it have turned out today with 900 million users?
+    \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \section*{Conclusion}
