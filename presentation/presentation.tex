@@ -1,4 +1,5 @@
 \documentclass[svgnames]{beamer}
+\usepackage{movie15}
 %\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 % \mode<presentation>{\usetheme{Ilmenau}} % Ilmenau
 % \mode<presentation>{\usetheme{Warsaw}} % Warsaw
@@ -153,6 +154,9 @@
 \begin{frame}
  \frametitle{Practical example}
  
+ \begin{figure}[ht]
+   \includemovie[poster,text={\small(Loading Video...)}]{6cm}{4cm}{media/video.avi}
+ \end{figure}
  % We're gonna show you samples of vulnerable services in the webapp we developped
  
  \begin{center}
@@ -192,6 +196,8 @@
   \tableofcontents[currentsection]
 \end{frame}
 	
+\subsection{Story 1}
+
 \begin{frame}
   \frametitle{Description}
   
